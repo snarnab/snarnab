@@ -7,6 +7,33 @@
 <a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
 </p>
 
+## Prottasha website starter
+
+A reusable Laravel 13 + Blade starting point with responsive public pages, registration, login/remember-me, email verification, password recovery, a verified-user dashboard, profile and password settings, account deletion, and a database-backed contact form. Authentication uses Laravel's session guard and password broker. Forms include CSRF protection, validation, and throttling for sensitive actions.
+
+### Run locally
+
+1. Run `composer install`.
+2. On a new copy, copy `.env.example` to `.env`, configure your database, and run `php artisan key:generate`. Never replace an existing application key.
+3. Run `php artisan migrate`.
+4. Run `php artisan serve`, then open `http://localhost:8000` and register an account.
+
+The starter's stylesheet is served directly from `public/css/site.css`; Node and a Vite build are not required for these pages. Google Fonts is optional, with local font fallbacks.
+
+### Configure and extend
+
+- Set `APP_NAME`, `APP_URL`, `SITE_NAME`, and `SITE_EMAIL` in `.env`. The branding defaults and description live in `config/site.php`.
+- Shared layout: `resources/views/layouts/app.blade.php`; public pages: `resources/views/pages`; authentication pages: `resources/views/auth`; routes: `routes/web.php`.
+- In local development, `MAIL_MAILER=log` writes verification and password reset links to `storage/logs/laravel.log`. Configure SMTP before sending real mail. Set `APP_URL` to the actual site URL before generating email links.
+- Contact messages are saved in the `contact_messages` table. An admin inbox, message email notifications, payments, and business-specific features are not included.
+- Privacy and Terms pages are explicitly marked starter templates. Replace them, the About copy, and the example contact address before launch.
+- Add new member pages to the `auth` / `auth.session` route group and apply `verified` where needed. There is no default administrator account.
+- Use `APP_DEBUG=false` and HTTPS in production. Never commit `.env`.
+
+### Tests
+
+Run `php artisan test`. Tests use an isolated SQLite in-memory database and need the PDO SQLite extension. With the current local PHP installation, use `php -d extension=pdo_sqlite vendor/phpunit/phpunit/phpunit` to enable it just for the test process. The feature tests cover account access, verification signatures, password reset tokens, validation, throttling, profile updates, account deletion, and contact submission.
+
 ## About Laravel
 
 Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
