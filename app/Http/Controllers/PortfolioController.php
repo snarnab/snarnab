@@ -10,9 +10,9 @@ use App\Models\Photograph;
 use App\Models\PhotographyCategory;
 use App\Models\Profile;
 use App\Models\Project;
+use App\Models\SiteSetting;
 use App\Models\SkillCategory;
 use App\Models\SocialLink;
-use App\Models\SiteSetting;
 use Illuminate\Http\Response;
 use Illuminate\View\View;
 
@@ -28,9 +28,8 @@ class PortfolioController extends Controller
             'educations' => Education::query()->orderBy('sort_order')->orderByDesc('graduated_year')->get(),
             'freelanceProfiles' => FreelanceProfile::query()->where('is_published', true)->orderBy('sort_order')->get(),
             'musicItems' => MusicItem::query()->where('is_published', true)->orderBy('sort_order')->get(),
-            'photographs' => Photograph::query()->where('is_published', true)->where('is_featured', true)->orderBy('sort_order')->limit(2)->get(),
             'socialLinks' => SocialLink::query()->orderBy('sort_order')->get(),
-            'settings' => SiteSetting::query()->get()->keyBy('key'),
+            'settings' => SiteSetting::query()->get()->toBase()->keyBy('key'),
         ]);
     }
 
@@ -41,14 +40,14 @@ class PortfolioController extends Controller
             'experiences' => Experience::query()->orderBy('sort_order')->orderByDesc('started_at')->get(),
             'educations' => Education::query()->orderBy('sort_order')->orderByDesc('graduated_year')->get(),
             'socialLinks' => SocialLink::query()->orderBy('sort_order')->get(),
-            'settings' => SiteSetting::query()->get()->keyBy('key'),
+            'settings' => SiteSetting::query()->get()->toBase()->keyBy('key'),
         ]);
     }
 
     public function contact(): View
     {
         return view('pages.contact', [
-            'settings' => SiteSetting::query()->get()->keyBy('key'),
+            'settings' => SiteSetting::query()->get()->toBase()->keyBy('key'),
             'socialLinks' => SocialLink::query()->orderBy('sort_order')->get(),
         ]);
     }

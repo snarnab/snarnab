@@ -8,7 +8,7 @@
     $contactEmail = $settings->get('contact_email')?->{"value_{$locale}"} ?: config('site.email');
     $featuredProject = $projects->firstWhere('is_featured', true) ?? $projects->first();
 @endphp
-@section('title', ($profile?->name ?? config('site.name')).' · '.($profile?->getAttribute('creative_title_'.$locale) ?? 'Web Developer & IT Professional'))
+@section('title', $profile?->getAttribute('creative_title_'.$locale) ?? 'Web Developer & IT Professional')
 @section('description', $profile?->getAttribute('intro_'.$locale) ?? config('site.description'))
 @section('content')
 <section class="container hero-editorial">
@@ -69,7 +69,10 @@
     <div class="projects-heading"><div><h2>{{ $locale === 'bn' ? 'বাস্তব প্রয়োজনের' : 'Built for' }}<br><em>{{ $locale === 'bn' ? 'জন্য তৈরি।' : 'real-world needs.' }}</em></h2></div><p>{{ $locale === 'bn' ? 'প্রাতিষ্ঠানিক কাজ থেকে ওয়েব অ্যাপ্লিকেশন—নির্বাচিত কাজ।' : 'Selected work, including institutional software and web applications.' }}</p></div>
     @if($featuredProject)
         <article class="featured-project">
-            <div class="project-visual" aria-hidden="true"><div class="project-visual-top"><span>{{ $featuredProject->organization ?: 'SELECTED WORK' }}</span><span>PROJECT / 01</span></div><div class="inventory-mark"><span class="inventory-mark-square">R</span><span>WEB<br><strong>APPLICATION</strong></span></div><span class="visual-caption">{{ strtoupper($featuredProject->category) }} · {{ strtoupper($featuredProject->status) }}</span></div>
+            <div class="project-visual" aria-hidden="true">
+                @if($featuredProject->cover_path)<img class="project-cover" src="{{ \Illuminate\Support\Facades\Storage::disk('public')->url($featuredProject->cover_path) }}" alt="" loading="lazy">@endif
+                <div class="project-visual-top"><span>{{ $featuredProject->organization ?: 'SELECTED WORK' }}</span><span>PROJECT / 01</span></div><div class="inventory-mark"><span class="inventory-mark-square">R</span><span>WEB<br><strong>APPLICATION</strong></span></div><span class="visual-caption">{{ strtoupper($featuredProject->category) }} · {{ strtoupper($featuredProject->status) }}</span>
+            </div>
             <div class="project-description">
                 <p class="project-kicker">{{ $featuredProject->organization ?: ($locale === 'bn' ? 'নির্বাচিত প্রকল্প' : 'SELECTED PROJECT') }}</p>
                 <h3>{{ $featuredProject->getAttribute('title_'.$locale) }}</h3>

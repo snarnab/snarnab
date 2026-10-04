@@ -9,6 +9,7 @@
     <h1>{{ $project->getAttribute('title_'.$locale) }}</h1>
     <p class="page-intro">{{ $project->getAttribute('summary_'.$locale) }}</p>
     <div class="project-tech">@foreach($project->technologies as $technology)<span>{{ $technology->name }}</span>@endforeach</div>
+    @if($project->cover_path)<img class="project-detail-cover" src="{{ \Illuminate\Support\Facades\Storage::disk('public')->url($project->cover_path) }}" alt="{{ $project->getAttribute('title_'.$locale) }}" loading="lazy">@endif
     <div class="project-detail-actions">@if($project->live_url)<a class="button" href="{{ $project->live_url }}" target="_blank" rel="noopener noreferrer">{{ $locale === 'bn' ? 'লাইভ সাইট দেখুন' : 'Visit live site' }} ↗</a>@endif @if($project->source_url)<a class="button secondary" href="{{ $project->source_url }}" target="_blank" rel="noopener noreferrer">{{ $locale === 'bn' ? 'সোর্স কোড' : 'Source code' }} ↗</a>@endif</div>
     <div class="project-case-study">
         @foreach(['problem' => $locale === 'bn' ? 'প্রয়োজন' : 'The need', 'solution' => $locale === 'bn' ? 'সমাধান' : 'The solution', 'outcome' => $locale === 'bn' ? 'ফলাফল' : 'Outcome'] as $key => $label)

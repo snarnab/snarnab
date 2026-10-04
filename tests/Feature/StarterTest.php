@@ -3,6 +3,7 @@
 namespace Tests\Feature;
 
 use App\Models\User;
+use Database\Seeders\PortfolioSeeder;
 use Illuminate\Auth\Notifications\ResetPassword;
 use Illuminate\Auth\Notifications\VerifyEmail;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -27,16 +28,18 @@ class StarterTest extends TestCase
 
     public function test_portfolio_displays_profile_details_and_contact_links(): void
     {
+        $this->seed(PortfolioSeeder::class);
+        $this->assertDatabaseHas('site_settings', ['key' => 'institutional_email']);
+
         $this->get('/')
             ->assertOk()
             ->assertSee('lang="bn"', false)
             ->assertSee('সাকিব নিহাল আরনাব')
             ->assertSee('Senior Technical Officer')
-            ->assertSee('RUET CSE Inventory System')
-            ->assertSee('Master of Business Administration')
+            ->assertSee('RUET CSE ইনভেন্টরি সিস্টেম')
+            ->assertSee('এম.এসসি.')
             ->assertSee('Freelancer.com')
-            ->assertSee('data-bn="ওয়েব ডেভেলপার"', false)
-            ->assertSee('data-bn="ও আইটি পেশাজীবী।"', false)
+            ->assertSee('ওয়েব ডেভেলপার ও আইটি পেশাজীবী')
             ->assertSee('sakibnihalarnab@cse.ruet.ac.bd')
             ->assertSee('images/sakib-portrait.jpg', false)
             ->assertSee('fonts/hind-siliguri-400-bengali.woff2', false)
@@ -72,15 +75,15 @@ class StarterTest extends TestCase
             ->get('/')
             ->assertOk()
             ->assertSee('lang="en"', false)
-            ->assertSee('data-en="IT professional"', false)
-            ->assertSee('data-en="View selected work"', false)
-            ->assertSee('data-en="Built to solve"', false);
+            ->assertSee('Web Developer & IT Professional')
+            ->assertSee('View selected work')
+            ->assertSee('Built for');
 
         $this->withCookie('portfolio-language', 'en')
             ->get('/contact')
             ->assertOk()
-            ->assertSee('data-en="Your name"', false)
-            ->assertSee('data-en="Send message"', false);
+            ->assertSee('Your name')
+            ->assertSee('Send message');
     }
 
     public function test_portfolio_language_preference_is_validated_and_saved_in_an_encrypted_cookie(): void
@@ -227,8 +230,8 @@ class StarterTest extends TestCase
 
     public function test_contact_messages_are_validated_stored_and_rate_limited(): void
     {
-        $this->post('/contact', ['email' => 'bad'])->assertSessionHasErrors(['name', 'email', 'subject', 'message']);
-        $data = ['name' => 'Visitor', 'email' => 'visitor@example.com', 'subject' => 'Hello', 'message' => 'I would like to learn more.'];
+        $this->post('/contact', ['email' => 'bad'])->assertSessionHasErrors(['name', 'email', 'subject', 'inquiry_type', 'message']);
+        $data = ['name' => 'Visitor', 'email' => 'visitor@example.com', 'subject' => 'Hello', 'inquiry_type' => 'general', 'message' => 'I would like to learn more.'];
         $this->post('/contact', $data)->assertSessionHasNoErrors()->assertSessionHas('status');
         $this->assertDatabaseHas('contact_messages', $data);
         $this->post('/contact', $data)->assertRedirect();

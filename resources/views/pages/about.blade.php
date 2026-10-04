@@ -1,6 +1,6 @@
 @extends('layouts.app')
 @php($locale = request()->cookie('portfolio-language') === 'en' ? 'en' : 'bn')
-@section('title', ($locale === 'bn' ? 'পরিচিতি' : 'About').' · '.($profile?->name ?? config('site.name')))
+@section('title', $locale === 'bn' ? 'পরিচিতি' : 'About')
 @section('description', $profile?->getAttribute('about_'.$locale) ?? config('site.description'))
 @section('content')
 <section class="container info-page">

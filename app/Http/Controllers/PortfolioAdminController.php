@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\ContactMessage;
+use App\Models\PhotographyCategory;
 use App\Models\Profile;
 use App\Models\Project;
 use App\Models\SiteSetting;
@@ -11,8 +12,6 @@ use App\Models\Technology;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
-use Illuminate\Pagination\LengthAwarePaginator;
-use Illuminate\Support\Facades\Storage;
 use Illuminate\Validation\Rule;
 use Illuminate\View\View;
 
@@ -118,20 +117,25 @@ class PortfolioAdminController extends Controller
             'about_en' => ['required', 'string', 'max:5000'],
             'location' => ['nullable', 'string', 'max:255'],
             'image_path' => ['nullable', 'image', 'max:5120'],
-            'settings' => ['nullable', 'array'],
+            'settings' => ['nullable', 'array:contact_email,institutional_email,phone,office'],
             'settings.*.en' => ['nullable', 'string', 'max:5000'],
             'settings.*.bn' => ['nullable', 'string', 'max:5000'],
+            'settings.contact_email.en' => ['nullable', 'email', 'max:255'],
+            'settings.institutional_email.en' => ['nullable', 'email', 'max:255'],
         ]);
 
         if ($request->hasFile('image_path')) {
             $data['image_path'] = $request->file('image_path')->storePublicly('portfolio/profile', 'public');
         }
 
+        foreach (array_keys($request->input('settings', [])) as $key) {
+            abort_unless(in_array($key, ['contact_email', 'institutional_email', 'phone', 'office'], true), 422);
+        }
+
         unset($data['settings']);
         $profile->update($data);
 
         foreach ($request->input('settings', []) as $key => $values) {
-            abort_unless(in_array($key, ['contact_email', 'institutional_email', 'phone', 'office'], true), 422);
             SiteSetting::updateOrCreate(['key' => $key], [
                 'value_en' => $values['en'] ?? null,
                 'value_bn' => $values['bn'] ?? null,
@@ -186,8 +190,7 @@ class PortfolioAdminController extends Controller
 
             foreach ($fieldRules as $index => $rule) {
                 if (is_string($rule) && str_starts_with($rule, 'unique:')) {
-                    [, $table, $column] = [...explode(':', $rule, 2), null];
-                    [$table, $column] = array_pad(explode(',', $table), 2, 'id');
+                    [$table, $column] = array_pad(explode(',', substr($rule, 7), 2), 2, 'id');
                     $fieldRules[$index] = Rule::unique($table, $column)->ignore($entry?->getKey());
                 }
             }
@@ -243,7 +246,7 @@ class PortfolioAdminController extends Controller
             'skill-categories' => SkillCategory::query()->orderBy('sort_order')->pluck('name_en', 'id')->all(),
             'technologies' => Technology::query()->orderBy('name')->pluck('name', 'id')->all(),
             'projects' => Project::query()->orderBy('title_en')->pluck('title_en', 'id')->all(),
-            'photography-categories' => \App\Models\PhotographyCategory::query()->orderBy('sort_order')->pluck('name_en', 'id')->all(),
+            'photography-categories' => PhotographyCategory::query()->orderBy('sort_order')->pluck('name_en', 'id')->all(),
             default => [],
         };
     }

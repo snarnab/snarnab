@@ -9,10 +9,10 @@ use App\Models\MusicItem;
 use App\Models\PhotographyCategory;
 use App\Models\Profile;
 use App\Models\Project;
+use App\Models\SiteSetting;
 use App\Models\Skill;
 use App\Models\SkillCategory;
 use App\Models\SocialLink;
-use App\Models\SiteSetting;
 use App\Models\Technology;
 use Illuminate\Database\Seeder;
 
@@ -96,7 +96,7 @@ class PortfolioSeeder extends Seeder
             'is_featured' => true,
             'sort_order' => 1,
         ]);
-        $project->technologies()->sync($technologies->modelKeys());
+        $project->technologies()->sync($technologies->pluck('id')->all());
 
         FreelanceProfile::updateOrCreate(['platform' => 'Freelancer.com'], [
             'profile_url' => 'https://www.freelancer.pk/u/snarnab',

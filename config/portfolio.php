@@ -1,10 +1,24 @@
 <?php
 
+use App\Models\Education;
+use App\Models\Experience;
+use App\Models\FreelanceProfile;
+use App\Models\MusicItem;
+use App\Models\Photograph;
+use App\Models\PhotographyCategory;
+use App\Models\Project;
+use App\Models\ProjectImage;
+use App\Models\SiteSetting;
+use App\Models\Skill;
+use App\Models\SkillCategory;
+use App\Models\SocialLink;
+use App\Models\Technology;
+
 return [
     'resources' => [
         'experiences' => [
             'title' => 'Experience',
-            'model' => App\Models\Experience::class,
+            'model' => Experience::class,
             'columns' => ['title_en', 'organization_en', 'started_at'],
             'fields' => [
                 'title_en' => ['label' => 'Title (English)', 'type' => 'text', 'rules' => ['required', 'string', 'max:255']],
@@ -23,7 +37,7 @@ return [
         ],
         'education' => [
             'title' => 'Education',
-            'model' => App\Models\Education::class,
+            'model' => Education::class,
             'columns' => ['degree_en', 'institution_en', 'graduated_year'],
             'fields' => [
                 'degree_en' => ['label' => 'Degree (English)', 'type' => 'text', 'rules' => ['required', 'string', 'max:255']],
@@ -40,7 +54,7 @@ return [
         ],
         'skill-categories' => [
             'title' => 'Skill categories',
-            'model' => App\Models\SkillCategory::class,
+            'model' => SkillCategory::class,
             'columns' => ['name_en', 'name_bn', 'sort_order'],
             'fields' => [
                 'name_en' => ['label' => 'Name (English)', 'type' => 'text', 'rules' => ['required', 'string', 'max:255']],
@@ -50,7 +64,7 @@ return [
         ],
         'skills' => [
             'title' => 'Skills',
-            'model' => App\Models\Skill::class,
+            'model' => Skill::class,
             'columns' => ['name', 'skill_category_id', 'sort_order'],
             'fields' => [
                 'name' => ['label' => 'Skill', 'type' => 'text', 'rules' => ['required', 'string', 'max:255']],
@@ -60,7 +74,7 @@ return [
         ],
         'projects' => [
             'title' => 'Projects',
-            'model' => App\Models\Project::class,
+            'model' => Project::class,
             'columns' => ['title_en', 'category', 'development_year'],
             'fields' => [
                 'slug' => ['label' => 'URL slug', 'type' => 'text', 'rules' => ['required', 'string', 'alpha_dash', 'max:255', 'unique:projects,slug']],
@@ -90,7 +104,7 @@ return [
         ],
         'technologies' => [
             'title' => 'Technologies',
-            'model' => App\Models\Technology::class,
+            'model' => Technology::class,
             'columns' => ['name'],
             'fields' => [
                 'name' => ['label' => 'Technology', 'type' => 'text', 'rules' => ['required', 'string', 'max:255', 'unique:technologies,name']],
@@ -98,7 +112,7 @@ return [
         ],
         'project-images' => [
             'title' => 'Project images',
-            'model' => App\Models\ProjectImage::class,
+            'model' => ProjectImage::class,
             'columns' => ['project_id', 'alt_en', 'sort_order'],
             'fields' => [
                 'project_id' => ['label' => 'Project', 'type' => 'select', 'options' => 'projects', 'rules' => ['required', 'exists:projects,id']],
@@ -110,7 +124,7 @@ return [
         ],
         'freelance-profiles' => [
             'title' => 'Freelance profiles',
-            'model' => App\Models\FreelanceProfile::class,
+            'model' => FreelanceProfile::class,
             'columns' => ['platform', 'service_en', 'is_published'],
             'fields' => [
                 'platform' => ['label' => 'Platform', 'type' => 'text', 'rules' => ['required', 'string', 'max:255']],
@@ -125,7 +139,7 @@ return [
         ],
         'music' => [
             'title' => 'Music',
-            'model' => App\Models\MusicItem::class,
+            'model' => MusicItem::class,
             'columns' => ['title_en', 'is_featured', 'is_published'],
             'fields' => [
                 'title_en' => ['label' => 'Title (English)', 'type' => 'text', 'rules' => ['required', 'string', 'max:255']],
@@ -142,10 +156,10 @@ return [
         ],
         'photography-categories' => [
             'title' => 'Photography categories',
-            'model' => App\Models\PhotographyCategory::class,
+            'model' => PhotographyCategory::class,
             'columns' => ['name_en', 'slug', 'sort_order'],
             'fields' => [
-                'slug' => ['label' => 'URL slug', 'type' => 'text', 'rules' => ['required', 'string', 'alpha_dash', 'max:255']],
+                'slug' => ['label' => 'URL slug', 'type' => 'text', 'rules' => ['required', 'string', 'alpha_dash', 'max:255', 'unique:photography_categories,slug']],
                 'name_en' => ['label' => 'Name (English)', 'type' => 'text', 'rules' => ['required', 'string', 'max:255']],
                 'name_bn' => ['label' => 'Name (Bangla)', 'type' => 'text', 'rules' => ['required', 'string', 'max:255']],
                 'sort_order' => ['label' => 'Sort order', 'type' => 'number', 'rules' => ['required', 'integer', 'min:0', 'max:65535']],
@@ -153,7 +167,7 @@ return [
         ],
         'photographs' => [
             'title' => 'Photographs',
-            'model' => App\Models\Photograph::class,
+            'model' => Photograph::class,
             'columns' => ['title_en', 'location', 'is_published'],
             'fields' => [
                 'photography_category_id' => ['label' => 'Category', 'type' => 'select', 'options' => 'photography-categories', 'rules' => ['nullable', 'exists:photography_categories,id']],
@@ -173,7 +187,7 @@ return [
         ],
         'social-links' => [
             'title' => 'Social links',
-            'model' => App\Models\SocialLink::class,
+            'model' => SocialLink::class,
             'columns' => ['platform', 'label', 'url'],
             'fields' => [
                 'platform' => ['label' => 'Platform', 'type' => 'text', 'rules' => ['required', 'string', 'max:255']],
@@ -184,7 +198,7 @@ return [
         ],
         'site-settings' => [
             'title' => 'Site settings',
-            'model' => App\Models\SiteSetting::class,
+            'model' => SiteSetting::class,
             'columns' => ['key', 'value_en', 'value_bn'],
             'fields' => [
                 'key' => ['label' => 'Key', 'type' => 'text', 'rules' => ['required', 'string', 'alpha_dash', 'max:255', 'unique:site_settings,key']],

@@ -215,6 +215,7 @@ html[data-theme="light"] .admin-table th,html[data-theme="light"] .admin-table t
 .project-list-content .eyebrow{margin-bottom:8px;color:var(--warm)}
 .project-list-content .text-link,.project-detail-page>.text-link{color:var(--warm)}
 .project-detail-actions{display:flex;flex-wrap:wrap;gap:12px;margin-bottom:38px}
+.project-detail-cover{display:block;width:100%;max-height:580px;margin-bottom:35px;object-fit:cover}
 .project-detail-actions .button.secondary{border-color:#ffffff40;background:transparent;color:#f4f0e9}
 .project-case-study{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:22px}
 .project-case-study section{padding:24px;border:1px solid #ffffff20}
@@ -312,6 +313,10 @@ html[lang="bn"] .hero-editorial h1{font-size:clamp(42px,5vw,64px);line-height:1.
 .projects-heading>p{color:#647077}
 .featured-project{display:grid;grid-template-columns:.9fr 1.1fr;min-height:290px;border:1px solid #14202a22;background:#f9f7f1}
 .project-visual{position:relative;display:flex;min-height:290px;flex-direction:column;justify-content:space-between;overflow:hidden;padding:21px;background:#233849;color:#f6f0e7}
+.project-visual .project-cover{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.project-visual:has(.project-cover):before{z-index:1;border-color:#ffffff40}
+.project-visual:has(.project-cover):after{display:none}
+.project-visual:has(.project-cover) .project-visual-top,.project-visual:has(.project-cover) .inventory-mark,.project-visual:has(.project-cover) .visual-caption{z-index:2;text-shadow:0 1px 5px #000}
 .project-visual:before{position:absolute;inset:38px 22px 38px;border:1px solid #f0ae7840;content:""}
 .project-visual:after{position:absolute;top:50%;left:50%;width:185px;height:185px;border:1px solid #f0ae782b;border-radius:50%;content:"";transform:translate(-50%,-50%)}
 .project-visual-top,.visual-caption{position:relative;z-index:1;display:flex;justify-content:space-between;color:#d2d5d0;font-family:"Manrope","Hind Siliguri",sans-serif;font-size:8px;letter-spacing:.12em}
