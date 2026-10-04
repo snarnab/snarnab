@@ -63,6 +63,7 @@ class PortfolioSeeder extends Seeder
             'graduated_year' => 2019,
             'sort_order' => 2,
         ]);
+        $this->call(SchoolEducationSeeder::class);
 
         $webCategory = SkillCategory::updateOrCreate(['name_en' => 'Web Development'], [
             'name_bn' => 'ওয়েব ডেভেলপমেন্ট',

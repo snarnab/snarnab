@@ -26,10 +26,11 @@ class PortfolioAdminTest extends TestCase
     {
         $this->get('/')
             ->assertOk()
+            ->assertSee('lang="en"', false)
             ->assertSee('Sakib Nihal Arnab')
-            ->assertSee('RUET CSE ইনভেন্টরি সিস্টেম')
-            ->assertSee('এম.এসসি.')
-            ->assertSee('রাজশাহী বিশ্ববিদ্যালয়');
+            ->assertSee('RUET CSE Inventory System')
+            ->assertSee('M.Sc. in Computer Science &amp; Engineering', false)
+            ->assertSee('University of Rajshahi');
 
         $this->get('/projects/ruet-cse-inventory-system')
             ->assertOk()
@@ -63,7 +64,7 @@ class PortfolioAdminTest extends TestCase
         $administrator->forceFill(['is_admin' => true])->save();
         $this->actingAs($administrator);
 
-        $this->get('/admin/profile')->assertOk()->assertSee('Profile & contact');
+        $this->get('/admin/profile')->assertOk()->assertSee('Profile & contact')->assertDontSee('(Bangla)', false);
 
         foreach (array_keys(config('portfolio.resources')) as $resource) {
             $this->get(route('admin.resources.index', $resource))->assertOk();
@@ -94,10 +95,8 @@ class PortfolioAdminTest extends TestCase
         $this->actingAs($administrator)->post('/admin/projects', [
             'slug' => 'department-portal',
             'title_en' => 'Department portal',
-            'title_bn' => 'বিভাগীয় পোর্টাল',
             'category' => 'web',
             'summary_en' => 'A portal for a verified department use case.',
-            'summary_bn' => 'একটি বিভাগের বাস্তব প্রয়োজনের জন্য পোর্টাল।',
             'status' => 'active',
             'is_published' => '1',
             'technology_ids' => [$technology->id],
@@ -107,15 +106,14 @@ class PortfolioAdminTest extends TestCase
         $project = Project::query()->where('slug', 'department-portal')->firstOrFail();
         $this->assertTrue($project->is_published);
         $this->assertTrue($project->technologies->contains($technology));
-        $this->get('/projects/department-portal')->assertOk()->assertSee('বিভাগীয় পোর্টাল');
+        $this->assertSame('Department portal', $project->title_bn);
+        $this->get('/projects/department-portal')->assertOk()->assertSee('Department portal')->assertDontSee('বিভাগীয় পোর্টাল');
 
         $this->actingAs($administrator)->put('/admin/projects/'.$project->id, [
             'slug' => 'department-portal',
             'title_en' => 'Updated portal',
-            'title_bn' => 'হালনাগাদ পোর্টাল',
             'category' => 'web',
             'summary_en' => 'Updated description for the portal.',
-            'summary_bn' => 'পোর্টালের হালনাগাদ বিবরণ।',
             'status' => 'active',
             'sort_order' => '2',
         ])->assertRedirect(route('admin.resources.index', 'projects'));
@@ -140,19 +138,16 @@ class PortfolioAdminTest extends TestCase
 
         $this->actingAs($administrator)->put('/admin/profile', [
             'name' => 'Sakib Nihal Arnab',
-            'title_bn' => 'সিনিয়র টেকনিক্যাল অফিসার',
             'title_en' => 'Senior Technical Officer · CSE, RUET',
-            'creative_title_bn' => 'ওয়েব ডেভেলপার ও আইটি পেশাজীবী',
             'creative_title_en' => 'Web Developer & IT Professional',
-            'intro_bn' => 'পরিচিতি বাংলায়।',
             'intro_en' => 'Introduction in English.',
-            'about_bn' => 'আমার সম্পর্কে।',
             'about_en' => 'About me.',
             'location' => 'Rajshahi, Bangladesh',
-            'settings' => ['contact_email' => ['en' => 'updated@example.com', 'bn' => 'updated@example.com']],
+            'settings' => ['contact_email' => ['en' => 'updated@example.com']],
         ])->assertRedirect(route('admin.profile.edit'));
 
         $this->get('/contact')->assertOk()->assertSee('updated@example.com');
+        $this->actingAs($administrator)->get('/admin/profile')->assertOk()->assertDontSee('(Bangla)', false);
     }
 
     public function test_contact_messages_are_stored_and_visible_only_to_administrators(): void
@@ -197,10 +192,8 @@ class PortfolioAdminTest extends TestCase
         $this->actingAs($administrator)->post('/admin/projects', [
             'slug' => 'ruet-cse-inventory-system',
             'title_en' => 'Duplicate slug',
-            'title_bn' => 'একই স্লাগ',
             'category' => 'web',
             'summary_en' => 'A sufficiently long description.',
-            'summary_bn' => 'পর্যাপ্ত বর্ণনা।',
             'status' => 'active',
             'live_url' => 'javascript:alert(1)',
             'technology_ids' => [99999],
@@ -210,15 +203,25 @@ class PortfolioAdminTest extends TestCase
         $this->assertDatabaseMissing('projects', ['title_en' => 'Duplicate slug']);
     }
 
-    public function test_education_seed_contains_only_the_confirmed_degrees(): void
+    public function test_education_seed_contains_confirmed_degrees_and_school_records(): void
     {
         $this->seed(PortfolioSeeder::class);
 
-        $this->assertSame(2, Education::query()->count());
+        $this->assertSame(4, Education::query()->count());
         $this->assertDatabaseHas('educations', [
             'degree_en' => 'M.Sc. in Computer Science & Engineering',
             'institution_en' => 'University of Rajshahi',
             'graduated_year' => 2025,
+        ]);
+        $this->assertDatabaseHas('educations', [
+            'degree_en' => 'HSC',
+            'institution_en' => 'Rajshahi Collegiate School & College',
+            'graduated_year' => 2014,
+        ]);
+        $this->assertDatabaseHas('educations', [
+            'degree_en' => 'SSC',
+            'institution_en' => 'Rajshahi Govt Laboratory High School',
+            'graduated_year' => 2012,
         ]);
         $this->assertDatabaseMissing('educations', ['degree_en' => 'Master of Business Administration']);
     }

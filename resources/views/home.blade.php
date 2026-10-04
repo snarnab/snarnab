@@ -1,137 +1,180 @@
 @extends('layouts.app')
 @php
-    $locale = request()->cookie('portfolio-language') === 'en' ? 'en' : 'bn';
     $profileImage = $profile?->image_path ?: 'images/sakib-portrait.jpg';
     $profileImageUrl = str_starts_with($profileImage, 'images/')
         ? asset($profileImage)
         : \Illuminate\Support\Facades\Storage::disk('public')->url($profileImage);
-    $contactEmail = $settings->get('contact_email')?->{"value_{$locale}"} ?: config('site.email');
+    $contactEmail = $settings->get('contact_email')?->value_en ?: config('site.email');
     $featuredProject = $projects->firstWhere('is_featured', true) ?? $projects->first();
+    $featuredMusic = $musicItems->firstWhere('is_featured', true) ?? $musicItems->first();
 @endphp
-@section('title', $profile?->getAttribute('creative_title_'.$locale) ?? 'Web Developer & IT Professional')
-@section('description', $profile?->getAttribute('intro_'.$locale) ?? config('site.description'))
+@section('title', 'Software & Web Developer')
+@section('description', $profile?->intro_en ?? 'Sakib Nihal Arnab — Senior Technical Officer in the CSE department at RUET, software and web developer, and Rabindra Sangeet artist.')
 @section('content')
-<section class="container hero-editorial">
-    <div class="hero-editorial-copy">
-        <p class="eyebrow hero-eyebrow"><span class="status-dot"></span>{{ $profile?->getAttribute('title_'.$locale) ?? 'Senior Technical Officer · CSE, RUET' }}</p>
-        <h1>{{ $profile?->getAttribute('creative_title_'.$locale) ?? ($locale === 'bn' ? 'ওয়েব ডেভেলপার ও আইটি পেশাজীবী' : 'Web Developer & IT Professional') }}</h1>
-        <p class="hero-description">{{ $profile?->getAttribute('intro_'.$locale) ?? config('site.description') }}</p>
-        <div class="hero-actions">
-            <a class="button hero-button" href="#projects"><span>{{ $locale === 'bn' ? 'প্রকল্প দেখুন' : 'View selected work' }}</span><span class="button-arrow" aria-hidden="true">↗</span></a>
-            <a class="hero-secondary-link" href="{{ route('contact') }}"><span>{{ $locale === 'bn' ? 'যোগাযোগ' : 'Get in touch' }}</span><span aria-hidden="true">→</span></a>
+<section class="hero-section">
+    <div class="container hero-layout">
+        <div class="hero-copy">
+            <p class="eyebrow hero-eyebrow"><span class="status-dot"></span>Senior Technical Officer <span class="eyebrow-divider">/</span> RUET CSE</p>
+            <h1>Web developer.<br><span>IT professional.</span></h1>
+            <p class="hero-description">{{ $profile?->intro_en ?? 'I’m Sakib Nihal Arnab. I work in the CSE department at RUET and build practical web applications and websites.' }}</p>
+            <div class="hero-actions">
+                <a class="button hero-button" href="#projects">Explore my work <span aria-hidden="true">↗</span></a>
+                <a class="hero-secondary-link" href="{{ route('contact') }}">Get in touch <span aria-hidden="true">→</span></a>
+            </div>
+            <div class="hero-social-links" aria-label="Social profiles">
+                @foreach($socialLinks->take(4) as $link)
+                    <a href="{{ $link->url }}" target="_blank" rel="noopener noreferrer">{{ $link->label ?: $link->platform }} <span aria-hidden="true">↗</span></a>
+                @endforeach
+            </div>
         </div>
-        <div class="hero-social-links" aria-label="Social profiles">
-            @foreach($socialLinks->take(4) as $link)
-                <a href="{{ $link->url }}" target="_blank" rel="noopener noreferrer">{{ $link->label ?: $link->platform }} <span>↗</span></a>
+        <figure class="hero-portrait">
+            <img src="{{ $profileImageUrl }}" alt="{{ $profile?->name ?? config('site.name') }}" fetchpriority="high">
+            <figcaption><span class="portrait-caption-mark">SA</span><span><strong>{{ $profile?->name ?? config('site.name') }}</strong><small>Rajshahi, Bangladesh</small></span></figcaption>
+            <span class="portrait-index">01 <span>/</span> RUET · CSE</span>
+        </figure>
+    </div>
+</section>
+
+<section class="credentials-bar" aria-label="Professional overview">
+    <div class="container credentials-grid">
+        <div><span>01</span><strong>RUET CSE</strong><small>Institutional IT</small></div>
+        <div><span>02</span><strong>Web development</strong><small>Laravel · PHP · WordPress</small></div>
+        <div><span>03</span><strong>Based in Rajshahi</strong><small>Bangladesh</small></div>
+        <a href="#experience">Explore my background <span aria-hidden="true">↘</span></a>
+    </div>
+</section>
+
+<section class="section-block intro-section" id="about">
+    <div class="container two-column-section">
+        <div class="section-label"><span>01</span><span>About</span></div>
+        <div class="intro-content">
+            <h2>Technology should make<br><span>everyday work better.</span></h2>
+            <div class="intro-description">
+                <p>{{ $profile?->about_en ?? 'I work in institutional technology at the Department of CSE, Rajshahi University of Engineering & Technology. I also build useful web applications and websites.' }}</p>
+                <a class="text-link" href="{{ route('about') }}">More about me <span aria-hidden="true">↗</span></a>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="section-block skills-section" id="expertise">
+    <div class="container">
+        <div class="section-heading-row">
+            <div><div class="section-label"><span>02</span><span>Expertise</span></div><h2>Practical skills.<br><span>Thoughtful solutions.</span></h2></div>
+            <p>Tools and areas of work reflected in my professional experience and projects.</p>
+        </div>
+        <div class="skills-grid">
+            @forelse($skills as $category)
+                <article class="skill-card">
+                    <span class="skill-index">{{ str_pad((string) $loop->iteration, 2, '0', STR_PAD_LEFT) }}</span>
+                    <h3>{{ $category->name_en }}</h3>
+                    <div class="skill-tags">@foreach($category->skills as $skill)<span>{{ $skill->name }}</span>@endforeach</div>
+                </article>
+            @empty
+                <p>Professional skills will be added soon.</p>
+            @endforelse
+        </div>
+    </div>
+</section>
+
+<section class="section-block projects-section" id="projects">
+    <div class="container">
+        <div class="section-heading-row">
+            <div><div class="section-label"><span>03</span><span>Selected work</span></div><h2>Built around<br><span>real-world needs.</span></h2></div>
+            <p>A selection of software and web work, including a system developed for RUET’s CSE department.</p>
+        </div>
+        @if($featuredProject)
+            <article class="featured-project">
+                <a class="project-art" href="{{ route('projects.show', $featuredProject->slug) }}" aria-label="View {{ $featuredProject->title_en }}">
+                    @if($featuredProject->cover_path)<img src="{{ \Illuminate\Support\Facades\Storage::disk('public')->url($featuredProject->cover_path) }}" alt="" loading="lazy">@endif
+                    <span class="project-art-kicker">{{ $featuredProject->organization ?: 'Selected project' }}</span>
+                    <span class="project-art-title">RUET<br><strong>Inventory</strong></span>
+                    <span class="project-art-footer">DEPARTMENTAL SOFTWARE <span>↗</span></span>
+                </a>
+                <div class="project-copy">
+                    <p class="eyebrow">{{ $featuredProject->organization ?: 'Institutional software' }}{{ $featuredProject->development_year ? ' · '.$featuredProject->development_year : '' }}</p>
+                    <h3>{{ $featuredProject->title_en }}</h3>
+                    <p>{{ $featuredProject->summary_en }}</p>
+                    <div class="project-tech">@foreach($featuredProject->technologies as $technology)<span>{{ $technology->name }}</span>@endforeach</div>
+                    <div class="project-links">
+                        <a href="{{ route('projects.show', $featuredProject->slug) }}">Project details <span aria-hidden="true">↗</span></a>
+                        @if($featuredProject->live_url)<a href="{{ $featuredProject->live_url }}" target="_blank" rel="noopener noreferrer">Live system <span aria-hidden="true">↗</span></a>@endif
+                        @if($featuredProject->source_url)<a href="{{ $featuredProject->source_url }}" target="_blank" rel="noopener noreferrer">Source code <span aria-hidden="true">↗</span></a>@endif
+                    </div>
+                </div>
+            </article>
+        @else
+            <p>Selected projects will be added soon.</p>
+        @endif
+        <div class="section-footer-link"><span>More projects and repositories</span><a href="{{ route('projects.index') }}">Browse all projects <span aria-hidden="true">↗</span></a></div>
+    </div>
+</section>
+
+<section class="section-block experience-section" id="experience">
+    <div class="container">
+        <div class="section-label"><span>04</span><span>Experience &amp; education</span></div>
+        <div class="experience-grid">
+            <div class="timeline-column">
+                <h2>Professional experience</h2>
+                @forelse($experiences as $experience)
+                    <article class="timeline-entry">
+                        <span class="timeline-period">{{ $experience->started_at?->format('M Y') }} — {{ $experience->is_current ? 'Present' : $experience->ended_at?->format('M Y') }}</span>
+                        <div><h3>{{ $experience->title_en }}</h3><p>{{ $experience->organization_en }}</p>@if($experience->location)<small>{{ $experience->location }}</small>@endif</div>
+                    </article>
+                @empty
+                    <p>Experience details will be added soon.</p>
+                @endforelse
+                @foreach($freelanceProfiles as $freelance)
+                    <article class="timeline-entry"><span class="timeline-period">Freelance</span><div><h3>{{ $freelance->service_en }}</h3><p><a href="{{ $freelance->profile_url }}" target="_blank" rel="noopener noreferrer">{{ $freelance->platform }} ↗</a></p></div></article>
+                @endforeach
+            </div>
+            <div class="timeline-column education-column">
+                <h2>Education</h2>
+                @forelse($educations as $education)
+                    <article class="timeline-entry">
+                        <span class="timeline-period">{{ $education->graduated_year }}</span>
+                        <div><h3>{{ $education->degree_en }}</h3><p>{{ $education->institution_en }}</p></div>
+                    </article>
+                @empty
+                    <p>Education details will be added soon.</p>
+                @endforelse
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="section-block personal-section">
+    <div class="container personal-grid">
+        <div class="personal-copy">
+            <div class="section-label"><span>05</span><span>Beyond work</span></div>
+            <p class="eyebrow">Music &amp; photography</p>
+            <h2>A different kind<br>of <span>expression.</span></h2>
+            <p>Outside technology, I perform Rabindra Sangeet with Rajshahi Betar and enjoy photography.</p>
+            <div class="personal-links"><a href="{{ route('music.index') }}">Music <span aria-hidden="true">↗</span></a><a href="{{ route('photography.index') }}">Photography <span aria-hidden="true">↗</span></a></div>
+        </div>
+        <a class="personal-photo" href="{{ route('music.index') }}">
+            <img src="{{ $featuredMusic?->image_path && ! str_starts_with($featuredMusic->image_path, 'images/') ? \Illuminate\Support\Facades\Storage::disk('public')->url($featuredMusic->image_path) : asset('images/sakib-music.jpg') }}" alt="Sakib Nihal Arnab with a guitar" loading="lazy">
+            <span>Rabindra Sangeet · Rajshahi Betar <span aria-hidden="true">↗</span></span>
+        </a>
+    </div>
+</section>
+
+<section class="contact-section" id="contact">
+    <div class="container contact-layout">
+        <div>
+            <div class="section-label"><span>06</span><span>Contact</span></div>
+            <p class="eyebrow">Have a project in mind?</p>
+            <h2>Let’s make<br><span>something useful.</span></h2>
+            <a class="contact-email-link" href="mailto:{{ $contactEmail }}">{{ $contactEmail }} <span aria-hidden="true">↗</span></a>
+        </div>
+        <div class="contact-details">
+            @foreach($settings->only(['institutional_email', 'phone', 'office']) as $key => $setting)
+                <a href="{{ $key === 'phone' ? 'tel:'.preg_replace('/[^+0-9]/', '', $setting->value_en) : ($key === 'office' ? route('contact') : 'mailto:'.$setting->value_en) }}"><span>{{ str($key)->replace('_', ' ')->title() }}</span><strong>{{ $setting->value_en }}</strong></a>
+            @endforeach
+            @foreach($socialLinks->whereIn('platform', ['LinkedIn', 'GitHub'])->take(2) as $link)
+                <a href="{{ $link->url }}" target="_blank" rel="noopener noreferrer"><span>{{ $link->platform }}</span><strong>{{ $link->label ?: $link->platform }} ↗</strong></a>
             @endforeach
         </div>
     </div>
-    <div class="hero-photo-wrap">
-        <img class="hero-photo" src="{{ $profileImageUrl }}" alt="{{ $profile?->name ?? config('site.name') }}" fetchpriority="high">
-        <span class="photo-index">RAJSHAHI · BANGLADESH<br><span>RUET · DEPARTMENT OF CSE</span></span>
-        <div class="photo-caption"><span class="caption-initials">SA</span><span><strong>{{ $profile?->name ?? config('site.name') }}</strong><small>{{ $profile?->getAttribute('title_'.$locale) ?? 'Senior Technical Officer · RUET' }}</small></span><span class="caption-arrow" aria-hidden="true">↗</span></div>
-    </div>
 </section>
-
-<div class="credential-strip"><div class="container credential-items">
-    <span class="strip-label">{{ $locale === 'bn' ? 'পেশাগত পরিচয়' : 'PROFESSIONAL PROFILE' }}</span>
-    <span>RUET <span class="strip-divider">/</span> CSE</span>
-    <span>{{ $locale === 'bn' ? 'ওয়েব অ্যাপ্লিকেশন' : 'WEB APPLICATIONS' }}</span>
-    <span>Laravel · WordPress</span>
-    <span>{{ $locale === 'bn' ? 'রাজশাহী, বাংলাদেশ' : 'RAJSHAHI, BANGLADESH' }}</span>
-</div></div>
-
-<section class="container about-editorial" id="about">
-    <div class="section-marker"><span>01</span><span>—</span><span>{{ $locale === 'bn' ? 'পরিচিতি' : 'ABOUT' }}</span></div>
-    <div class="about-editorial-copy">
-        <h2>{{ $locale === 'bn' ? 'প্রযুক্তি ও' : 'Technology for' }}<br><em>{{ $locale === 'bn' ? 'কার্যকর সমাধান।' : 'useful solutions.' }}</em></h2>
-        <div class="about-detail">
-            <p>{{ $profile?->getAttribute('about_'.$locale) ?? config('site.description') }}</p>
-            <a class="inline-more-link" href="{{ route('about') }}"><span>{{ $locale === 'bn' ? 'পূর্ণ পরিচিতি' : 'More about me' }}</span><span>↗</span></a>
-        </div>
-    </div>
-</section>
-
-<section class="skills-section" id="expertise"><div class="container">
-    <div class="section-marker"><span>02</span><span>—</span><span>{{ $locale === 'bn' ? 'দক্ষতা' : 'EXPERTISE' }}</span></div>
-    <div class="skills-heading"><h2>{{ $locale === 'bn' ? 'যে প্রযুক্তি ও কাজে স্বচ্ছন্দ' : 'Tools I work with' }}</h2><p>{{ $locale === 'bn' ? 'অভিজ্ঞতা ও প্রকল্পে ব্যবহৃত প্রযুক্তি।' : 'Technologies reflected in my experience and work.' }}</p></div>
-    <div class="skills-grid">
-        @forelse($skills as $category)
-            <article class="skill-group"><span class="skill-index">{{ str_pad((string) $loop->iteration, 2, '0', STR_PAD_LEFT) }}</span><h3>{{ $category->getAttribute('name_'.$locale) }}</h3><p>{{ $locale === 'bn' ? 'দক্ষতার ক্ষেত্র' : 'Area of practice' }}</p><div class="skill-tags">@foreach($category->skills as $skill)<span>{{ $skill->name }}</span>@endforeach</div></article>
-        @empty
-            <p>{{ $locale === 'bn' ? 'দক্ষতার তথ্য শিগগিরই যোগ করা হবে।' : 'Skills will be added soon.' }}</p>
-        @endforelse
-    </div>
-</div></section>
-
-<section class="projects-section" id="projects"><div class="container">
-    <div class="section-marker"><span>03</span><span>—</span><span>{{ $locale === 'bn' ? 'নির্বাচিত প্রকল্প' : 'SELECTED PROJECTS' }}</span></div>
-    <div class="projects-heading"><div><h2>{{ $locale === 'bn' ? 'বাস্তব প্রয়োজনের' : 'Built for' }}<br><em>{{ $locale === 'bn' ? 'জন্য তৈরি।' : 'real-world needs.' }}</em></h2></div><p>{{ $locale === 'bn' ? 'প্রাতিষ্ঠানিক কাজ থেকে ওয়েব অ্যাপ্লিকেশন—নির্বাচিত কাজ।' : 'Selected work, including institutional software and web applications.' }}</p></div>
-    @if($featuredProject)
-        <article class="featured-project">
-            <div class="project-visual" aria-hidden="true">
-                @if($featuredProject->cover_path)<img class="project-cover" src="{{ \Illuminate\Support\Facades\Storage::disk('public')->url($featuredProject->cover_path) }}" alt="" loading="lazy">@endif
-                <div class="project-visual-top"><span>{{ $featuredProject->organization ?: 'SELECTED WORK' }}</span><span>PROJECT / 01</span></div><div class="inventory-mark"><span class="inventory-mark-square">R</span><span>WEB<br><strong>APPLICATION</strong></span></div><span class="visual-caption">{{ strtoupper($featuredProject->category) }} · {{ strtoupper($featuredProject->status) }}</span>
-            </div>
-            <div class="project-description">
-                <p class="project-kicker">{{ $featuredProject->organization ?: ($locale === 'bn' ? 'নির্বাচিত প্রকল্প' : 'SELECTED PROJECT') }}</p>
-                <h3>{{ $featuredProject->getAttribute('title_'.$locale) }}</h3>
-                <p>{{ $featuredProject->getAttribute('summary_'.$locale) }}</p>
-                <div class="project-tech">@foreach($featuredProject->technologies as $technology)<span>{{ $technology->name }}</span>@endforeach</div>
-                <div class="project-links">
-                    <a class="project-link" href="{{ route('projects.show', $featuredProject->slug) }}"><span>{{ $locale === 'bn' ? 'বিস্তারিত' : 'Project details' }}</span><span>↗</span></a>
-                    @if($featuredProject->live_url)<a class="project-link" href="{{ $featuredProject->live_url }}" target="_blank" rel="noopener noreferrer"><span>{{ $locale === 'bn' ? 'লাইভ সাইট' : 'Live site' }}</span><span>↗</span></a>@endif
-                    @if($featuredProject->source_url)<a class="project-link" href="{{ $featuredProject->source_url }}" target="_blank" rel="noopener noreferrer"><span>{{ $locale === 'bn' ? 'সোর্স কোড' : 'Source code' }}</span><span>↗</span></a>@endif
-                </div>
-            </div>
-        </article>
-    @else
-        <p>{{ $locale === 'bn' ? 'নির্বাচিত প্রকল্প শিগগিরই যোগ করা হবে।' : 'Selected projects will be added soon.' }}</p>
-    @endif
-    <div class="all-projects-link"><span>{{ $locale === 'bn' ? 'সব প্রকল্প' : 'Browse all projects' }}</span><a href="{{ route('projects.index') }}">{{ $locale === 'bn' ? 'প্রকল্প দেখুন' : 'Projects' }} <span>↗</span></a></div>
-</div></section>
-
-<section class="experience-section" id="experience"><div class="container">
-    <div class="section-marker"><span>04</span><span>—</span><span>{{ $locale === 'bn' ? 'অভিজ্ঞতা ও শিক্ষা' : 'EXPERIENCE & EDUCATION' }}</span></div>
-    <div class="experience-grid">
-        <div class="timeline-column"><h2>{{ $locale === 'bn' ? 'পেশাগত অভিজ্ঞতা' : 'Experience' }}</h2>
-            @forelse($experiences as $experience)
-                <div class="timeline-entry"><span class="timeline-period">{{ $experience->started_at?->format('M Y') }} — {{ $experience->is_current ? ($locale === 'bn' ? 'বর্তমান' : 'PRESENT') : $experience->ended_at?->format('M Y') }}</span><div><h3>{{ $experience->getAttribute('title_'.$locale) }}</h3><p>{{ $experience->getAttribute('organization_'.$locale) }}</p>@if($experience->location)<span class="timeline-location">{{ $experience->location }}</span>@endif</div></div>
-            @empty
-                <p>{{ $locale === 'bn' ? 'অভিজ্ঞতার তথ্য শিগগিরই যোগ করা হবে।' : 'Experience details will be added soon.' }}</p>
-            @endforelse
-            @if($freelanceProfiles->isNotEmpty())
-                <div class="timeline-entry"><span class="timeline-period">{{ $locale === 'bn' ? 'ফ্রিল্যান্স' : 'FREELANCE' }}</span><div><h3>{{ $locale === 'bn' ? 'WordPress Developer' : 'WordPress Developer' }}</h3>@foreach($freelanceProfiles as $freelance)<p><a href="{{ $freelance->profile_url }}" target="_blank" rel="noopener noreferrer">{{ $freelance->platform }} ↗</a></p>@endforeach</div></div>
-            @endif
-        </div>
-        <div class="timeline-column education-column"><h2>{{ $locale === 'bn' ? 'শিক্ষা' : 'Education' }}</h2>
-            @forelse($educations as $education)
-                <div class="timeline-entry"><span class="timeline-period">{{ $education->started_year ? $education->started_year.' — ' : '' }}{{ $education->graduated_year }}</span><div><h3>{{ $education->getAttribute('degree_'.$locale) }}</h3><p>{{ $education->getAttribute('institution_'.$locale) }}</p></div></div>
-            @empty
-                <p>{{ $locale === 'bn' ? 'শিক্ষার তথ্য শিগগিরই যোগ করা হবে।' : 'Education details will be added soon.' }}</p>
-            @endforelse
-        </div>
-    </div>
-</div></section>
-
-@if($musicItems->isNotEmpty())
-<section class="music-preview container">
-    <div class="section-marker"><span>05</span><span>—</span><span>{{ $locale === 'bn' ? 'সংগীত' : 'MUSIC' }}</span></div>
-    @foreach($musicItems->where('is_featured', true)->take(1) as $music)
-        <article class="music-preview-card"><img src="{{ str_starts_with($music->image_path ?? '', 'images/') ? asset($music->image_path) : ($music->image_path ? \Illuminate\Support\Facades\Storage::disk('public')->url($music->image_path) : asset('images/sakib-music.jpg')) }}" alt="{{ $music->getAttribute('title_'.$locale) }}" loading="lazy"><div><p class="eyebrow">{{ $locale === 'bn' ? 'কাজের বাইরে' : 'OUTSIDE OF WORK' }}</p><h2>{{ $music->getAttribute('title_'.$locale) }}</h2><p>{{ $music->getAttribute('description_'.$locale) }}</p><a href="{{ route('music.index') }}">{{ $locale === 'bn' ? 'সংগীত পরিচিতি' : 'Music and performance' }} ↗</a></div></article>
-    @endforeach
-</section>
-@endif
-
-<section class="contact-editorial" id="contact"><div class="container contact-editorial-inner">
-    <div><div class="section-marker"><span>06</span><span>—</span><span>{{ $locale === 'bn' ? 'যোগাযোগ' : 'CONTACT' }}</span></div><h2>{{ $locale === 'bn' ? 'চলুন, কথা বলি।' : 'Let’s get in touch.' }}</h2><p>{{ $locale === 'bn' ? 'পেশাগত কাজ, প্রযুক্তি অথবা সংগীত নিয়ে যোগাযোগ করতে পারেন।' : 'Get in touch about professional work, technology, or music.' }}</p><a class="contact-email-link" href="mailto:{{ $contactEmail }}">{{ $contactEmail }} <span>↗</span></a></div>
-    <div class="contact-quick-links">
-        @foreach($settings->only(['institutional_email', 'phone', 'office']) as $key => $setting)
-            <a href="{{ $key === 'phone' ? 'tel:'.preg_replace('/[^+0-9]/', '', $setting->value_en) : ($key === 'office' ? route('contact') : 'mailto:'.$setting->value_en) }}"><span>{{ strtoupper(str_replace('_', ' ', $key)) }}</span><strong>{{ $setting->getAttribute('value_'.$locale) }}</strong></a>
-        @endforeach
-        @foreach($socialLinks->whereIn('platform', ['LinkedIn', 'Facebook'])->take(2) as $link)
-            <a href="{{ $link->url }}" target="_blank" rel="noopener noreferrer"><span>{{ strtoupper($link->platform) }}</span><strong>{{ $link->label ?: $link->platform }} ↗</strong></a>
-        @endforeach
-    </div>
-</div></section>
 @endsection

@@ -107,19 +107,14 @@ class PortfolioAdminController extends Controller
         $profile = Profile::query()->findOrFail(1);
         $data = $request->validate([
             'name' => ['required', 'string', 'max:255'],
-            'title_bn' => ['required', 'string', 'max:255'],
             'title_en' => ['required', 'string', 'max:255'],
-            'creative_title_bn' => ['nullable', 'string', 'max:255'],
             'creative_title_en' => ['nullable', 'string', 'max:255'],
-            'intro_bn' => ['required', 'string', 'max:5000'],
             'intro_en' => ['required', 'string', 'max:5000'],
-            'about_bn' => ['required', 'string', 'max:5000'],
             'about_en' => ['required', 'string', 'max:5000'],
             'location' => ['nullable', 'string', 'max:255'],
             'image_path' => ['nullable', 'image', 'max:5120'],
             'settings' => ['nullable', 'array:contact_email,institutional_email,phone,office'],
             'settings.*.en' => ['nullable', 'string', 'max:5000'],
-            'settings.*.bn' => ['nullable', 'string', 'max:5000'],
             'settings.contact_email.en' => ['nullable', 'email', 'max:255'],
             'settings.institutional_email.en' => ['nullable', 'email', 'max:255'],
         ]);
@@ -132,13 +127,18 @@ class PortfolioAdminController extends Controller
             abort_unless(in_array($key, ['contact_email', 'institutional_email', 'phone', 'office'], true), 422);
         }
 
+        $data['title_bn'] = $data['title_en'];
+        $data['creative_title_bn'] = $data['creative_title_en'] ?? null;
+        $data['intro_bn'] = $data['intro_en'];
+        $data['about_bn'] = $data['about_en'];
+
         unset($data['settings']);
         $profile->update($data);
 
         foreach ($request->input('settings', []) as $key => $values) {
             SiteSetting::updateOrCreate(['key' => $key], [
                 'value_en' => $values['en'] ?? null,
-                'value_bn' => $values['bn'] ?? null,
+                'value_bn' => $values['en'] ?? null,
             ]);
         }
 
@@ -213,6 +213,10 @@ class PortfolioAdminController extends Controller
     {
         $technologyIds = $data['technology_ids'] ?? [];
         unset($data['technology_ids']);
+
+        foreach ($definition['mirrors'] ?? [] as $target => $source) {
+            $data[$target] = $data[$source] ?? null;
+        }
 
         foreach ($definition['fields'] as $key => $field) {
             if ($field['type'] === 'checkbox') {

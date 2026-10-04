@@ -33,16 +33,17 @@ class StarterTest extends TestCase
 
         $this->get('/')
             ->assertOk()
-            ->assertSee('lang="bn"', false)
-            ->assertSee('সাকিব নিহাল আরনাব')
+            ->assertSee('lang="en"', false)
             ->assertSee('Senior Technical Officer')
-            ->assertSee('RUET CSE ইনভেন্টরি সিস্টেম')
-            ->assertSee('এম.এসসি.')
+            ->assertSee('RUET CSE Inventory System')
+            ->assertSee('M.Sc. in Computer Science &amp; Engineering', false)
+            ->assertSee('B.Sc. in Computer Science &amp; Engineering', false)
+            ->assertSee('Rajshahi Collegiate School &amp; College', false)
+            ->assertSee('Rajshahi Govt Laboratory High School')
             ->assertSee('Freelancer.com')
-            ->assertSee('ওয়েব ডেভেলপার ও আইটি পেশাজীবী')
+            ->assertDontSee('সাকিব নিহাল আরনাব')
             ->assertSee('sakibnihalarnab@cse.ruet.ac.bd')
             ->assertSee('images/sakib-portrait.jpg', false)
-            ->assertSee('fonts/hind-siliguri-400-bengali.woff2', false)
             ->assertSee('https://rcis.ruet.ac.bd/login', false)
             ->assertSee('https://www.youtube.com/@sakibnihalarnab', false)
             ->assertSee('https://github.com/snarnab?tab=repositories', false);
@@ -58,42 +59,13 @@ class StarterTest extends TestCase
             ->assertSee('href="tel:+8801752309936"', false);
     }
 
-    public function test_bengali_fonts_are_self_hosted(): void
+    public function test_public_portfolio_pages_are_english_only(): void
     {
-        foreach ([
-            'hind-siliguri-400-bengali.woff2',
-            'hind-siliguri-700-bengali.woff2',
-            'tiro-bangla-400-bengali.woff2',
-        ] as $font) {
-            $this->assertFileExists(public_path("fonts/{$font}"));
+        foreach (['/', '/about', '/contact', '/projects', '/music', '/photography'] as $url) {
+            $this->get($url)->assertOk()->assertSee('lang="en"', false)->assertDontSee('portfolio-language');
         }
-    }
 
-    public function test_portfolio_language_can_be_changed_between_bengali_and_english(): void
-    {
-        $this->withCookie('portfolio-language', 'en')
-            ->get('/')
-            ->assertOk()
-            ->assertSee('lang="en"', false)
-            ->assertSee('Web Developer & IT Professional')
-            ->assertSee('View selected work')
-            ->assertSee('Built for');
-
-        $this->withCookie('portfolio-language', 'en')
-            ->get('/contact')
-            ->assertOk()
-            ->assertSee('Your name')
-            ->assertSee('Send message');
-    }
-
-    public function test_portfolio_language_preference_is_validated_and_saved_in_an_encrypted_cookie(): void
-    {
-        $this->postJson('/language', ['language' => 'en'])
-            ->assertNoContent()
-            ->assertCookie('portfolio-language', 'en');
-
-        $this->postJson('/language', ['language' => 'fr'])
-            ->assertUnprocessable();
+        $this->postJson('/language', ['language' => 'en'])->assertNotFound();
     }
 
     public function test_registration_hashes_password_and_sends_verification(): void
