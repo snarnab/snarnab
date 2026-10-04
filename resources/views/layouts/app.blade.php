@@ -12,9 +12,12 @@
     <meta property="og:url" content="{{ url()->current() }}">
     <meta property="og:image" content="{{ asset('images/sakib-portrait.jpg') }}">
     <link rel="canonical" href="{{ url()->current() }}">
-    <meta name="theme-color" content="#f6f5f1">
+    <meta name="theme-color" content="#0B1F33">
     <title>@yield('title', 'Welcome') · {{ config('site.name') }}</title>
     <link rel="icon" href="{{ asset('favicon.svg') }}" type="image/svg+xml">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="{{ asset('css/site.css') }}">
     <link rel="stylesheet" href="{{ asset('css/portfolio.css') }}">
     <script type="application/ld+json">@json($personSchema)</script>
@@ -23,7 +26,7 @@
     <a class="skip-link" href="#main">Skip to content</a>
     <header class="site-header">
         <div class="container navigation">
-            <a href="{{ route('home') }}" class="brand"><span class="brand-mark">SA</span><span>{{ config('site.name') }}</span></a>
+            <a href="{{ route('home') }}" class="brand header-brand" aria-label="{{ config('site.name') }} home"><span class="brand-mark">SNA</span></a>
             <details class="mobile-menu"><summary>Menu</summary><nav aria-label="Main navigation">@include('partials.navigation')</nav></details>
             <nav class="desktop-nav" aria-label="Main navigation">@include('partials.navigation')</nav>
         </div>

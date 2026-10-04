@@ -8,15 +8,19 @@
     $featuredProject = $projects->firstWhere('is_featured', true) ?? $projects->first();
     $featuredMusic = $musicItems->firstWhere('is_featured', true) ?? $musicItems->first();
 @endphp
-@section('title', 'Software & Web Developer')
-@section('description', $profile?->intro_en ?? 'Sakib Nihal Arnab — Senior Technical Officer in the CSE department at RUET, software and web developer, and Rabindra Sangeet artist.')
+@section('title', 'Sakib Nihal Arnab')
+@section('description', 'Senior Technical Officer at RUET with a background in Computer Science & Engineering, software development, institutional systems, real-world applications and freelance development.')
 @section('content')
 <section class="hero-section">
     <div class="container hero-layout">
         <div class="hero-copy">
-            <p class="eyebrow hero-eyebrow"><span class="status-dot"></span>Senior Technical Officer <span class="eyebrow-divider">/</span> RUET CSE</p>
-            <h1>Web developer.<br><span>IT professional.</span></h1>
-            <p class="hero-description">{{ $profile?->intro_en ?? 'I’m Sakib Nihal Arnab. I work in the CSE department at RUET and build practical web applications and websites.' }}</p>
+            <h1>Sakib Nihal <span>Arnab</span></h1>
+            <p class="hero-role">
+                <span class="hero-role-item"><span class="hero-role-marker marker-gold" aria-hidden="true">✦</span>Software Developer</span>
+                <span class="hero-role-item"><span class="hero-role-marker marker-burgundy" aria-hidden="true">✦</span>IT Professional</span>
+                <span class="hero-role-item"><span class="hero-role-marker marker-muted" aria-hidden="true">✦</span>Music Artist</span>
+            </p>
+            <p class="hero-description">Senior Technical Officer at RUET with a background in Computer Science &amp; Engineering, software development, institutional systems, real-world applications and freelance development.</p>
             <div class="hero-actions">
                 <a class="button hero-button" href="#projects">Explore my work <span aria-hidden="true">↗</span></a>
                 <a class="hero-secondary-link" href="{{ route('contact') }}">Get in touch <span aria-hidden="true">→</span></a>
