@@ -22,7 +22,7 @@
             </p>
             <p class="hero-description">Senior Technical Officer at RUET with a background in Computer Science &amp; Engineering, software development, institutional systems, real-world applications and freelance development.</p>
             <div class="hero-actions">
-                <a class="button hero-button" href="#projects">Explore my work <span aria-hidden="true">↗</span></a>
+                <a class="button hero-button" href="#projects">Explore his work <span aria-hidden="true">↗</span></a>
                 <a class="hero-secondary-link" href="{{ route('contact') }}">Get in touch <span aria-hidden="true">→</span></a>
             </div>
             <div class="hero-social-links" aria-label="Social profiles">
@@ -44,7 +44,7 @@
         <div><span>01</span><strong>RUET CSE</strong><small>Institutional IT</small></div>
         <div><span>02</span><strong>Web development</strong><small>Laravel · PHP · WordPress</small></div>
         <div><span>03</span><strong>Based in Rajshahi</strong><small>Bangladesh</small></div>
-        <a href="#experience">Explore my background <span aria-hidden="true">↘</span></a>
+        <a href="#experience">Explore his background <span aria-hidden="true">↘</span></a>
     </div>
 </section>
 
@@ -54,8 +54,8 @@
         <div class="intro-content">
             <h2>Technology should make<br><span>everyday work better.</span></h2>
             <div class="intro-description">
-                <p>{{ $profile?->about_en ?? 'I work in institutional technology at the Department of CSE, Rajshahi University of Engineering & Technology. I also build useful web applications and websites.' }}</p>
-                <a class="text-link" href="{{ route('about') }}">More about me <span aria-hidden="true">↗</span></a>
+                <p>{{ $profile?->about_en ?? 'Sakib Nihal Arnab serves in institutional technology at the Department of CSE, Rajshahi University of Engineering & Technology. He also develops practical web applications and websites.' }}</p>
+                <a class="text-link" href="{{ route('about') }}">About Sakib Nihal Arnab <span aria-hidden="true">↗</span></a>
             </div>
         </div>
     </div>
@@ -65,7 +65,7 @@
     <div class="container">
         <div class="section-heading-row">
             <div><div class="section-label"><span>02</span><span>Expertise</span></div><h2>Practical skills.<br><span>Thoughtful solutions.</span></h2></div>
-            <p>Tools and areas of work reflected in my professional experience and projects.</p>
+            <p>Tools and areas of work reflected in his professional experience and projects.</p>
         </div>
         <div class="skills-grid">
             @forelse($skills as $category)
@@ -121,15 +121,15 @@
             <div class="timeline-column">
                 <h2>Professional experience</h2>
                 @forelse($experiences as $experience)
-                    <article class="timeline-entry">
-                        <span class="timeline-period">{{ $experience->started_at?->format('M Y') }} — {{ $experience->is_current ? 'Present' : $experience->ended_at?->format('M Y') }}</span>
-                        <div><h3>{{ $experience->title_en }}</h3><p>{{ $experience->organization_en }}</p>@if($experience->location)<small>{{ $experience->location }}</small>@endif</div>
+                    <article class="timeline-entry experience-detail-entry">
+                        <span class="timeline-period">{{ $experience->started_at?->format('F j, Y') ?? ($experience->is_current ? 'Current role' : 'Freelance') }}{{ $experience->started_at && ($experience->is_current || $experience->ended_at) ? ' — '.($experience->is_current ? 'Present' : $experience->ended_at->format('F Y')) : '' }}</span>
+                        <div><h3>{{ $experience->title_en }}</h3><p>{{ $experience->organization_en }}</p>@if($experience->location)<small>{{ $experience->location }}</small>@endif @if($experience->details_en)<p>{{ $experience->details_en }}</p>@endif</div>
                     </article>
                 @empty
                     <p>Experience details will be added soon.</p>
                 @endforelse
                 @foreach($freelanceProfiles as $freelance)
-                    <article class="timeline-entry"><span class="timeline-period">Freelance</span><div><h3>{{ $freelance->service_en }}</h3><p><a href="{{ $freelance->profile_url }}" target="_blank" rel="noopener noreferrer">{{ $freelance->platform }} ↗</a></p></div></article>
+                    <article class="timeline-entry"><span class="timeline-period">Freelance</span><div><h3>{{ $freelance->service_en }}</h3>@if($freelance->details_en)<p>{{ $freelance->details_en }}</p>@endif<p><a href="{{ $freelance->profile_url }}" target="_blank" rel="noopener noreferrer">{{ $freelance->platform }} ↗</a></p></div></article>
                 @endforeach
             </div>
             <div class="timeline-column education-column">
@@ -153,7 +153,7 @@
             <div class="section-label"><span>05</span><span>Beyond work</span></div>
             <p class="eyebrow">Music &amp; photography</p>
             <h2>A different kind<br>of <span>expression.</span></h2>
-            <p>Outside technology, I perform Rabindra Sangeet with Rajshahi Betar and enjoy photography.</p>
+            <p>Beyond technology, Sakib Nihal Arnab performs Rabindra Sangeet with Rajshahi Betar and pursues photography.</p>
             <div class="personal-links"><a href="{{ route('music.index') }}">Music <span aria-hidden="true">↗</span></a><a href="{{ route('photography.index') }}">Photography <span aria-hidden="true">↗</span></a></div>
         </div>
         <a class="personal-photo" href="{{ route('music.index') }}">

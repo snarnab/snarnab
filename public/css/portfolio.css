@@ -5116,3 +5116,65 @@ h3,
         font-size: 14px;
     }
 }
+/* Freelancing page */
+.freelance-page { padding-top: 48px; }
+.timeline-entry.experience-detail-entry, .about-education article.experience-detail-entry { display: flex; flex-direction: column; align-items: flex-start; gap: 12px; }
+.experience-detail-entry > .timeline-period, .about-education article.experience-detail-entry > span { width: auto; flex: none; white-space: nowrap; font-size: clamp(11px, 3.2vw, 14px); }
+.experience-detail-entry > div { width: 100%; min-width: 0; }
+.about-awards { margin-top: 48px; padding-top: 32px; border-top: 1px solid #35516d; }
+.awards-heading h2 { margin: 12px 0; font-size: clamp(28px, 3vw, 38px); line-height: 1.2; color: #f1f5f9; }
+.awards-heading > p:last-child { margin-bottom: 24px; color: #cbd5e1; font-size: 14px; line-height: 1.7; }
+.awards-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; }
+.award-card { min-width: 0; padding: 24px; border: 1px solid #35516d; border-radius: 12px; background: linear-gradient(135deg, #18334e, #122b45); }
+.award-meta { display: flex; justify-content: space-between; gap: 12px; align-items: center; margin-bottom: 18px; color: #e8be60; font-size: 12px; font-weight: 600; }
+.award-category { padding: 5px 9px; border: 1px solid #6d623e; border-radius: 5px; background: #d4a84312; }
+.award-card h3 { margin: 0 0 12px; color: #f1f5f9; font-family: var(--body-font); font-size: 18px; line-height: 1.4; }
+.award-card .award-role { margin: 0 0 18px; color: #d8e1ec; font-size: 14px; line-height: 1.7; }
+.award-card .award-institution { margin: 0; padding-top: 14px; border-top: 1px solid #35516d; color: #b6c6d8; font-size: 12px; line-height: 1.6; }
+@media (max-width: 760px) { .awards-grid { grid-template-columns: 1fr; } .award-card { padding: 20px; } }
+.review-controls { display: flex; flex-wrap: wrap; gap: 12px; margin: 20px 0; }
+.freelance-cards.review-carousel { display: flex; overflow-x: auto; scroll-snap-type: x mandatory; padding-bottom: 16px; }
+.review-carousel > .card { flex: 0 0 calc((100% - 48px) / 3); scroll-snap-align: start; }
+.review-carousel blockquote { margin: 16px 0; }
+.review-carousel:focus-visible { outline: 2px solid #e8be60; outline-offset: 4px; }
+@media (max-width: 760px) { .review-carousel > .card { flex-basis: 100%; } }
+.freelance-cards { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 24px; }
+.freelance-cards .card { min-width: 0; background: #122b45; border-color: #35516d; color: #f1f5f9; }
+.freelance-cards .card h2, .freelance-cards .card h3 { color: #f1f5f9; }
+.freelance-cards .card p { color: #cbd5e1; }
+.freelance-cards .card .eyebrow { color: #e8be60; }
+.freelance-cards .card .button.secondary { color: #f3ce7a; border-color: #d4a843; background: transparent; }
+.freelance-cards .card .button.secondary:hover { color: #0b1f33; background: #f3ce7a; }
+.freelance-cards h2 { font-size: 26px; }
+.freelance-cards p, .freelance-detail > p, .freelance-detail li { color: var(--muted); line-height: 1.8; }
+.freelance-detail { margin-top: 56px; padding-top: 36px; border-top: 1px solid var(--line); }
+.freelance-detail > h3 { margin-top: 32px; }
+.freelance-stats { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; margin: 28px 0; }
+.freelance-stats > div { padding: 22px; border: 1px solid var(--line); border-radius: var(--radius); }
+.freelance-stats dt { font-size: 12px; color: var(--muted); }
+.freelance-stats dd { margin: 10px 0 0; font-size: 28px; font-weight: 700; }
+@media (max-width: 760px) {
+    .freelance-cards { grid-template-columns: 1fr; }
+    .freelance-stats { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .freelance-stats > div { padding: 16px; }
+}
+
+/* Client review cards */
+.freelance-detail { min-width: 0; }
+.freelance-cards.review-carousel { width: 100%; max-width: 100%; position: relative; scrollbar-width: thin; scrollbar-color: #d4a843 #122b45; margin-bottom: 24px; }
+.freelance-cards .review-card { display: flex; flex-direction: column; padding: 32px; border-radius: 48px; overflow: hidden; background: linear-gradient(145deg, #19354f, #10273c); border: 1px solid #35516d; box-shadow: 0 8px 24px #00000020; }
+.review-rating { display: flex; align-items: center; gap: 8px; color: #e8be60; }
+.review-rating > span:first-child { font-size: 22px; }
+.review-rating strong { font-size: 20px; }
+.review-rating small { font-size: 13px; font-weight: 400; color: #b8c8da; }
+.review-source { margin-left: auto; font-size: 11px; text-transform: uppercase; letter-spacing: .08em; color: #b8c8da; }
+.freelance-cards .review-card .review-comment { margin: 24px 0; color: #f1f5f9; font-size: 17px; line-height: 1.7; }
+.freelance-cards .review-card .review-project { margin: auto 0 20px; font-size: 13px; font-family: var(--body-font); font-weight: 500; line-height: 1.6; color: #b8c8da; }
+.review-client { display: flex; gap: 12px; align-items: center; padding-top: 18px; border-top: 1px solid #35516d; }
+.review-avatar { display: grid; place-items: center; flex: 0 0 42px; height: 42px; border-radius: 50%; background: #d4a84320; color: #f3ce7a; font-weight: 700; }
+.review-client > div { min-width: 0; }
+.review-client strong { display: block; font-size: 14px; color: #f1f5f9; }
+.review-client > div > span { display: block; font-size: 12px; color: #b8c8da; margin-top: 4px; }
+.review-value { margin-left: auto; white-space: nowrap; font-size: 12px; color: #e8be60; }
+.review-controls .button { min-height: 40px; border-radius: 999px; padding-inline: 20px; }
+@media (max-width: 760px) { .freelance-cards .review-card { padding: 22px; } .review-client { flex-wrap: wrap; } }

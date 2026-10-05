@@ -6,7 +6,7 @@
     <div class="container page-hero-inner">
         <p class="eyebrow">CONTACT</p>
         <h1>Let’s start<br><span>a conversation.</span></h1>
-        <p class="page-intro">For project enquiries, technical conversations, or music-related requests, send me a message.</p>
+        <p class="page-intro">For project enquiries, technical conversations, or music-related requests, send Sakib Nihal Arnab a message.</p>
     </div>
 </section>
 <section class="container contact-page">
@@ -22,8 +22,8 @@
     </div>
     <div class="contact-form-card">
         <p class="eyebrow">SEND A MESSAGE</p>
-        <h2>I’m listening.</h2>
-        <p>Share a few details and I’ll get back to you.</p>
+        <h2>Contact Sakib Nihal Arnab.</h2>
+        <p>Share the project details to request a response from Sakib Nihal Arnab.</p>
         <form method="POST" action="{{ route('contact.store') }}" class="stack">
             @csrf
             <x-field name="name" label="Your name" type="text" :value="auth()->user()?->name" autocomplete="name" required maxlength="100" />

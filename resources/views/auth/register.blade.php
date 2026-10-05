@@ -8,7 +8,7 @@
     <x-field name="password" label="Password" type="password" autocomplete="new-password" required minlength="8" />
     <small class="muted">Use at least 8 characters, including a letter and a number.</small>
     <x-field name="password_confirmation" label="Confirm password" type="password" autocomplete="new-password" required />
-    <label class="checkbox"><input type="checkbox" name="terms" value="1" required @checked(old('terms'))><span>I agree to the <a href="{{ route('terms') }}">Terms</a> and <a href="{{ route('privacy') }}">Privacy policy</a>.</span></label>
+    <label class="checkbox"><input type="checkbox" name="terms" value="1" required @checked(old('terms'))><span>Accept the <a href="{{ route('terms') }}">Terms</a> and <a href="{{ route('privacy') }}">Privacy policy</a>.</span></label>
     <button class="button full">Create account <span>↗</span></button>
 </form><p class="form-foot">Already have an account? <a href="{{ route('login') }}">Log in</a></p>
 @endsection

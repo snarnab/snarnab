@@ -44,6 +44,13 @@ class PortfolioController extends Controller
         ]);
     }
 
+    public function freelancing(): View
+    {
+        return view('pages.freelancing', [
+            'freelanceProfiles' => FreelanceProfile::query()->where('is_published', true)->orderBy('sort_order')->get(),
+        ]);
+    }
+
     public function contact(): View
     {
         return view('pages.contact', [

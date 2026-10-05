@@ -5,8 +5,8 @@
 <section class="page-hero">
     <div class="container page-hero-inner">
         <p class="eyebrow">ABOUT</p>
-        <h1>A little about<br><span>what I do.</span></h1>
-        <p class="page-intro">Technology, institutional work, and the people and interests that shape my perspective.</p>
+        <h1>Sakib Nihal Arnab.<br><span>His work and achievements.</span></h1>
+        <p class="page-intro">An introduction to his professional expertise, institutional service, and creative pursuits.</p>
     </div>
 </section>
 <section class="container about-page-grid">
@@ -18,8 +18,8 @@
     </div>
     <div class="about-page-content">
         <p class="about-lead">{{ $profile?->about_en ?? config('site.description') }}</p>
-        <p>My day-to-day work is grounded in technical service for the Department of CSE at Rajshahi University of Engineering &amp; Technology. I also develop websites and software shaped around practical needs.</p>
-        <p>Alongside my technical career, I have worked as a freelance WordPress developer. Music and photography are important parts of my life outside work.</p>
+        <p>Sakib Nihal Arnab serves the Department of CSE at Rajshahi University of Engineering &amp; Technology through institutional technical support. His work also includes websites and software developed for practical needs.</p>
+        <p>Alongside his technical career, he brings freelance WordPress development experience. Music and photography complement his professional pursuits.</p>
         <div class="info-facts">
             @foreach($settings as $key => $setting)
                 <a href="{{ $key === 'phone' ? 'tel:'.preg_replace('/[^+0-9]/', '', $setting->value_en) : ($key === 'office' ? route('contact') : 'mailto:'.$setting->value_en) }}"><span>{{ str($key)->replace('_', ' ')->title() }}</span><strong>{{ $setting->value_en }}</strong></a>
@@ -35,8 +35,47 @@
         <section class="about-education">
             <h2>Experience</h2>
             @foreach($experiences as $experience)
-                <article><span>{{ $experience->started_at?->format('Y') }}{{ $experience->is_current ? ' — Present' : ($experience->ended_at ? ' — '.$experience->ended_at->format('Y') : '') }}</span><div><strong>{{ $experience->title_en }}</strong><p>{{ $experience->organization_en }}</p></div></article>
+                <article class="experience-detail-entry"><span>{{ $experience->started_at?->format('F j, Y') ?? ($experience->is_current ? 'Current' : 'Freelance') }}{{ $experience->started_at && ($experience->is_current || $experience->ended_at) ? ' — '.($experience->is_current ? 'Present' : $experience->ended_at->format('F Y')) : '' }}</span><div><strong>{{ $experience->title_en }}</strong><p>{{ $experience->organization_en }}</p>@if($experience->details_en)<p>{{ $experience->details_en }}</p>@endif</div></article>
             @endforeach
+        </section>
+        <section class="about-awards" aria-labelledby="awards-heading">
+            <header class="awards-heading">
+                <p class="eyebrow">RECOGNITION &amp; ACHIEVEMENTS</p>
+                <h2 id="awards-heading">Qualifications &amp; awards</h2>
+                <p>Academic milestones and recognition for leadership at BAUET.</p>
+            </header>
+            <div class="awards-grid">
+                <article class="award-card">
+                    <div class="award-meta"><span class="award-category">Leadership</span><span>2019</span></div>
+                    <h3>Welfare Club</h3>
+                    <p class="award-role">General Secretary · Certificate of Recognition</p>
+                    <p class="award-institution">Bangladesh Army University of Engineering &amp; Technology</p>
+                </article>
+                <article class="award-card">
+                    <div class="award-meta"><span class="award-category">Leadership</span><span>2019</span></div>
+                    <h3>Cultural Club</h3>
+                    <p class="award-role">General Secretary · Certificate of Recognition</p>
+                    <p class="award-institution">Bangladesh Army University of Engineering &amp; Technology</p>
+                </article>
+                <article class="award-card">
+                    <div class="award-meta"><span class="award-category">Leadership</span><span>2019</span></div>
+                    <h3>Photography &amp; Media Club</h3>
+                    <p class="award-role">General Secretary · Certificate of Recognition</p>
+                    <p class="award-institution">Bangladesh Army University of Engineering &amp; Technology</p>
+                </article>
+                <article class="award-card">
+                    <div class="award-meta"><span class="award-category">Scholarship</span><span>2014</span></div>
+                    <h3>H.S.C. Scholarship</h3>
+                    <p class="award-role">General quota · Higher Secondary Certificate, Class 12</p>
+                    <p class="award-institution">Rajshahi Board</p>
+                </article>
+                <article class="award-card">
+                    <div class="award-meta"><span class="award-category">Scholarship</span><span>2008</span></div>
+                    <h3>Junior School Scholarship</h3>
+                    <p class="award-role">General quota · Junior School, Class 8</p>
+                    <p class="award-institution">Rajshahi Board</p>
+                </article>
+            </div>
         </section>
     </div>
 </section>

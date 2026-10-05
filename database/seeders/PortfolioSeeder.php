@@ -4,7 +4,6 @@ namespace Database\Seeders;
 
 use App\Models\Education;
 use App\Models\Experience;
-use App\Models\FreelanceProfile;
 use App\Models\MusicItem;
 use App\Models\PhotographyCategory;
 use App\Models\Profile;
@@ -26,10 +25,10 @@ class PortfolioSeeder extends Seeder
             'title_en' => 'Senior Technical Officer · CSE, RUET',
             'creative_title_bn' => 'ওয়েব ডেভেলপার ও আইটি পেশাজীবী',
             'creative_title_en' => 'Web Developer & IT Professional',
-            'intro_bn' => 'আমি সাকিব নিহাল আরনাব। RUET-এর CSE বিভাগে সিনিয়র টেকনিক্যাল অফিসার হিসেবে কাজ করি এবং বাস্তব প্রয়োজনের জন্য ওয়েব অ্যাপ্লিকেশন তৈরি করি।',
-            'intro_en' => 'I am Sakib Nihal Arnab, a Senior Technical Officer in RUET’s CSE department who builds web applications for real-world needs.',
-            'about_bn' => 'রাজশাহী প্রকৌশল ও প্রযুক্তি বিশ্ববিদ্যালয়ের CSE বিভাগে প্রাতিষ্ঠানিক প্রযুক্তি সেবায় কাজ করি। পাশাপাশি Laravel, PHP ও WordPress দিয়ে ওয়েব অ্যাপ্লিকেশন ও সাইট তৈরি করি। রাজশাহী বেতারের রবীন্দ্রসংগীত শিল্পী হিসেবেও সংগীতচর্চা করি।',
-            'about_en' => 'I work in institutional technology at the Department of CSE, Rajshahi University of Engineering & Technology. I also build web applications and websites with Laravel, PHP, and WordPress, and perform Rabindra Sangeet with Rajshahi Betar.',
+            'intro_bn' => 'সাকিব নিহাল আরনাব RUET-এর CSE বিভাগের সিনিয়র টেকনিক্যাল অফিসার। তিনি বাস্তব প্রয়োজনের জন্য ওয়েব অ্যাপ্লিকেশন তৈরি করেন।',
+            'intro_en' => 'Sakib Nihal Arnab is a Senior Technical Officer in RUET’s CSE department who develops web applications for practical needs.',
+            'about_bn' => 'সাকিব নিহাল আরনাব রাজশাহী প্রকৌশল ও প্রযুক্তি বিশ্ববিদ্যালয়ের CSE বিভাগে প্রাতিষ্ঠানিক প্রযুক্তি সেবায় কর্মরত। তিনি Laravel, PHP ও WordPress দিয়ে ওয়েব অ্যাপ্লিকেশন ও সাইট তৈরি করেন। পাশাপাশি রাজশাহী বেতারের রবীন্দ্রসংগীত শিল্পী হিসেবে সংগীতচর্চা করেন।',
+            'about_en' => 'Sakib Nihal Arnab serves in institutional technology at the Department of CSE, Rajshahi University of Engineering & Technology. He develops web applications with Laravel, PHP, and WordPress, and performs Rabindra Sangeet with Rajshahi Betar.',
             'location' => 'Rajshahi, Bangladesh',
             'image_path' => 'images/sakib-portrait.jpg',
         ]);
@@ -99,15 +98,7 @@ class PortfolioSeeder extends Seeder
         ]);
         $project->technologies()->sync($technologies->pluck('id')->all());
 
-        FreelanceProfile::updateOrCreate(['platform' => 'Freelancer.com'], [
-            'profile_url' => 'https://www.freelancer.pk/u/snarnab',
-            'service_en' => 'WordPress Developer',
-            'service_bn' => 'ওয়ার্ডপ্রেস ডেভেলপার',
-            'details_en' => 'Freelance WordPress development experience listed in my professional CV.',
-            'details_bn' => 'আমার পেশাগত CV-তে উল্লেখিত WordPress development-এর freelance অভিজ্ঞতা।',
-            'is_published' => true,
-            'sort_order' => 1,
-        ]);
+        $this->call(FreelanceProfileSeeder::class);
 
         PhotographyCategory::updateOrCreate(['slug' => 'personal'], [
             'name_en' => 'Personal',
@@ -116,8 +107,8 @@ class PortfolioSeeder extends Seeder
         ]);
         MusicItem::updateOrCreate(['title_en' => 'Rabindra Sangeet'], [
             'title_bn' => 'রবীন্দ্রসংগীত',
-            'description_en' => 'I perform Rabindra Sangeet with Rajshahi Betar.',
-            'description_bn' => 'রাজশাহী বেতারের রবীন্দ্রসংগীত শিল্পী হিসেবে সংগীতচর্চা করি।',
+            'description_en' => 'Sakib Nihal Arnab performs Rabindra Sangeet with Rajshahi Betar.',
+            'description_bn' => 'সাকিব নিহাল আরনাব রাজশাহী বেতারের রবীন্দ্রসংগীত শিল্পী হিসেবে সংগীতচর্চা করেন।',
             'youtube_url' => 'https://www.youtube.com/@sakibnihalarnab',
             'image_path' => 'images/sakib-music.jpg',
             'is_featured' => true,

@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', [PortfolioController::class, 'home'])->name('home');
 Route::get('/about', [PortfolioController::class, 'about'])->name('about');
+Route::get('/freelancing', [PortfolioController::class, 'freelancing'])->name('freelancing');
 Route::get('/contact', [PortfolioController::class, 'contact'])->name('contact');
 Route::post('/contact', [ContactController::class, 'store'])->middleware('throttle:3,1')->name('contact.store');
 Route::get('/projects', [PortfolioController::class, 'projects'])->name('projects.index');

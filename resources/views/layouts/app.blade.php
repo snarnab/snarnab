@@ -19,7 +19,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="{{ asset('css/site.css') }}">
-    <link rel="stylesheet" href="{{ asset('css/portfolio.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/portfolio.css') }}?v={{ filemtime(public_path('css/portfolio.css')) }}">
     <script type="application/ld+json">@json($personSchema)</script>
 </head>
 <body>
@@ -41,6 +41,7 @@
             <div><a class="brand" href="{{ route('home') }}"><span class="brand-mark">SA</span><span>{{ config('site.name') }}</span></a><p>Senior Technical Officer · RUET CSE</p></div>
             <nav class="footer-links" aria-label="Footer navigation">
                 <a href="{{ route('projects.index') }}">Projects</a>
+                <a href="{{ route('freelancing') }}">Freelancing</a>
                 <a href="{{ route('music.index') }}">Music</a>
                 <a href="{{ route('photography.index') }}">Photography</a>
                 <a href="{{ route('about') }}">About</a>

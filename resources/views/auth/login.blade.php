@@ -5,7 +5,7 @@
 <form method="POST" action="{{ route('login') }}" class="stack">@csrf
     <x-field name="email" label="Email address" type="email" autocomplete="username" required autofocus />
     <x-field name="password" label="Password" type="password" autocomplete="current-password" required />
-    <div class="form-row"><label class="checkbox"><input type="checkbox" name="remember" value="1" @checked(old('remember'))> Remember me</label><a href="{{ route('password.request') }}">Forgot password?</a></div>
+    <div class="form-row"><label class="checkbox"><input type="checkbox" name="remember" value="1" @checked(old('remember'))> Stay signed in</label><a href="{{ route('password.request') }}">Forgot password?</a></div>
     <button class="button full">Log in <span>↗</span></button>
 </form><p class="form-foot">New around here? <a href="{{ route('register') }}">Create an account</a></p>
 @endsection

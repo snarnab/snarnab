@@ -14,5 +14,6 @@ class DatabaseSeeder extends Seeder
         // User::factory(10)->create();
 
         $this->call(PortfolioSeeder::class);
+        $this->call(DigitalMarketingExperienceSeeder::class);
     }
 }

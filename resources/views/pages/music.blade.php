@@ -6,7 +6,7 @@
     <div class="container page-hero-inner">
         <p class="eyebrow">OUTSIDE OF WORK</p>
         <h1>Music &amp; <span>performance.</span></h1>
-        <p class="page-intro">A personal space for my musical practice as a Rabindra Sangeet artist with Rajshahi Betar.</p>
+        <p class="page-intro">Explore Sakib Nihal Arnab?s musical practice as a Rabindra Sangeet artist with Rajshahi Betar.</p>
     </div>
 </section>
 <section class="container portfolio-list-page">
