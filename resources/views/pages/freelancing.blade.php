@@ -122,6 +122,23 @@
                 </article>
             </div>
             <p>Explore his Fiverr profile for available gigs and discuss the requirements for your next project.</p>
+            <h3>Fiverr client reviews</h3>
+            <p>Client feedback in its original wording, with ratings and review dates.</p>
+            <div class="review-controls" aria-label="Fiverr review controls">
+                <button type="button" class="button secondary small" data-review-previous aria-label="Previous Fiverr review">← Previous</button>
+                <button type="button" class="button secondary small" data-review-pause aria-pressed="false">Pause</button>
+                <button type="button" class="button secondary small" data-review-next aria-label="Next Fiverr review">Next →</button>
+            </div>
+            <div class="freelance-cards review-carousel" id="fiverr-reviews" tabindex="0" role="region" aria-label="Fiverr client reviews">
+                @foreach(collect(config('fiverr-reviews'))->sortByDesc('rating') as $review)
+                    <article class="card review-card">
+                        <div class="review-rating"><span aria-hidden="true">★</span><strong>{{ $review['rating'] }}<small> / 5</small></strong><span class="review-source">Fiverr</span></div>
+                        <blockquote class="review-comment">{{ $review['comment'] }}</blockquote>
+                        <p class="review-project">Instagram promotion · {{ $review['date'] }}</p>
+                        <div class="review-client"><span class="review-avatar" aria-hidden="true">{{ strtoupper(mb_substr($review['name'], 0, 1)) }}</span><div><strong>{{ $review['name'] }}</strong></div><span class="review-value">{{ $review['price'] }}</span></div>
+                    </article>
+                @endforeach
+            </div>
             <a class="button secondary" href="{{ $freelanceProfiles->firstWhere('platform', 'Fiverr')->profile_url }}" target="_blank" rel="noopener noreferrer">Hire Sakib on Fiverr ↗</a>
         </section>
     @endif
