@@ -53,7 +53,7 @@
         <div class="intro-content">
             <h2>Technology should make<br><span>everyday work better.</span></h2>
             <div class="intro-description">
-                <p>{{ $profile?->about_en ?? 'Sakib Nihal Arnab serves in institutional technology at the Department of CSE, Rajshahi University of Engineering & Technology. He also develops practical web applications and websites.' }}</p>
+                <p>{{ $profile?->about_en ?? 'Sakib Nihal Arnab is a Senior Technical Officer in the Department of Computer Science & Engineering at Rajshahi University of Engineering & Technology (RUET). He supports the department with dependable technical services and develops practical software for institutional and business needs.' }}</p>
                 <a class="text-link" href="{{ route('about') }}">About Sakib Nihal Arnab <span aria-hidden="true">↗</span></a>
             </div>
         </div>

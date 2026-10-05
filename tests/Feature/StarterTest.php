@@ -2,6 +2,8 @@
 
 namespace Tests\Feature;
 
+use App\Models\Photograph;
+use App\Models\PhotographyCategory;
 use App\Models\User;
 use Database\Seeders\PortfolioSeeder;
 use Illuminate\Auth\Notifications\ResetPassword;
@@ -36,8 +38,17 @@ class StarterTest extends TestCase
             ->assertSee('lang="en"', false)
             ->assertSee('fonts.googleapis.com/css2?family=Manrope', false)
             ->assertSee('family=Playfair+Display', false)
-            ->assertSee('aria-label="Sakib Nihal Arnab home"', false)
-            ->assertSee('<span class="brand-mark">SNA</span></a>', false)
+            ->assertSee('class="header-contact-links"', false)
+            ->assertSee('aria-label="Email Sakib Nihal Arnab"', false)
+            ->assertSee('aria-label="WhatsApp Sakib Nihal Arnab"', false)
+            ->assertSee('href="https://wa.me/8801752309936"', false)
+            ->assertSee('aria-label="Facebook"', false)
+            ->assertSee('aria-label="YouTube"', false)
+            ->assertSee('class="footer-office-address">Room 126, Ground Floor, RUET CSE Building, Rajshahi</p>', false)
+            ->assertSee('class="footer-social-links"', false)
+            ->assertDontSee('nav-contact', false)
+            ->assertDontSee('header-brand', false)
+            ->assertDontSee('footer-brand-mark', false)
             ->assertSee('<h1>Sakib Nihal <span>Arnab</span></h1>', false)
             ->assertSee('class="hero-role-marker marker-gold"', false)
             ->assertSee('class="hero-role-marker marker-burgundy"', false)
@@ -47,6 +58,7 @@ class StarterTest extends TestCase
             ->assertSee('Music Artist')
             ->assertSee('institutional systems, real-world applications and freelance development.')
             ->assertSee('Senior Technical Officer')
+            ->assertSee('class="contact-option-icon"', false)
             ->assertSee('RUET CSE Inventory System')
             ->assertSee('M.Sc. in Computer Science &amp; Engineering', false)
             ->assertSee('B.Sc. in Computer Science &amp; Engineering', false)
@@ -62,13 +74,89 @@ class StarterTest extends TestCase
 
         $this->get('/about')
             ->assertOk()
+            ->assertSee('images/about-portrait.jpg', false)
+            ->assertSee('class="about-biography"', false)
             ->assertSee('RUET')
+            ->assertSee('dependable technical services')
+            ->assertSee('His experience includes institutional software')
+            ->assertSee('performs Rabindra Sangeet with Rajshahi Betar')
             ->assertSee('sakibnihalarnab@gmail.com');
 
-        $this->get('/contact')
+        $this->get('/photography')
             ->assertOk()
+            ->assertSee('Arnab’s <span>Photography</span>', false);
+
+        $this->get('/freelancing')
+            ->assertOk()
+            ->assertSee('Arnab’s <span>Freelance Profiles</span>', false)
+            ->assertDontSee('Explore his work and discuss your project.');
+
+        $contactResponse = $this->get('/contact')
+            ->assertOk()
+            ->assertSee('Contact to <span>Arnab</span>', false)
+            ->assertDontSee('Let’s start')
+            ->assertDontSee('For project enquiries')
+            ->assertSee('aria-label="Call Sakib Nihal Arnab"', false)
+            ->assertSee('aria-label="WhatsApp Sakib Nihal Arnab"', false)
+            ->assertSee('aria-label="Personal email"', false)
+            ->assertSee('aria-label="RUET email"', false)
+            ->assertSee('aria-label="Facebook"', false)
+            ->assertSee('aria-label="YouTube"', false)
+            ->assertSee('href="mailto:sakibnihalarnab@cse.ruet.ac.bd"', false)
+            ->assertSee('href="https://wa.me/8801752309936"', false)
+            ->assertSee('contact-shortcuts', false)
+            ->assertSee('class="contact-option-icon"', false)
             ->assertSee('href="mailto:sakibnihalarnab@gmail.com"', false)
             ->assertSee('href="tel:+8801752309936"', false);
+
+        $this->assertSame(8, substr_count($contactResponse->getContent(), 'class="contact-shortcut-icon"'));
+    }
+
+    public function test_photography_pagination_places_previous_and_next_at_opposite_sides(): void
+    {
+        $category = PhotographyCategory::query()->create([
+            'slug' => 'landscapes',
+            'name_en' => 'Landscapes',
+            'name_bn' => 'Landscapes',
+            'sort_order' => 1,
+        ]);
+
+        for ($index = 1; $index <= 19; $index++) {
+            Photograph::query()->create([
+                'photography_category_id' => $category->id,
+                'title_en' => "Landscape {$index}",
+                'image_path' => "photographs/landscape-{$index}.jpg",
+                'is_published' => true,
+                'sort_order' => $index,
+            ]);
+        }
+
+        $this->get('/photography')
+            ->assertOk()
+            ->assertSee('aria-label="Photography pages"', false)
+            ->assertSee('aria-disabled="true">← <span>Previous</span>', false)
+            ->assertSee('photography?page=2"', false)
+            ->assertSee('Page <strong>1</strong> of <strong>2</strong>', false);
+
+        $this->get('/photography?page=2')
+            ->assertOk()
+            ->assertSee('photography?page=1"', false)
+            ->assertSee('aria-disabled="true"><span>Next</span> →', false)
+            ->assertSee('Page <strong>2</strong> of <strong>2</strong>', false);
+    }
+
+    public function test_freelance_review_sentences_start_with_uppercase_letters(): void
+    {
+        $this->seed(PortfolioSeeder::class);
+
+        $this->get('/freelancing')
+            ->assertOk()
+            ->assertSee('Good job. Fast work. Genuine person.')
+            ->assertSee('Amazing! I will definitely continue working with Sakib :) He is the best!')
+            ->assertSee('No comment. You are responsible for risk')
+            ->assertSee('Good work. I will hire you again.')
+            ->assertSee('Great always')
+            ->assertSee('Amazing as always');
     }
 
     public function test_public_portfolio_pages_are_english_only(): void

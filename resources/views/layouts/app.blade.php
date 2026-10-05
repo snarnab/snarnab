@@ -26,9 +26,23 @@
     <a class="skip-link" href="#main">Skip to content</a>
     <header class="site-header">
         <div class="container navigation">
-            <a href="{{ route('home') }}" class="brand header-brand" aria-label="{{ config('site.name') }} home"><span class="brand-mark">SNA</span></a>
             <details class="mobile-menu"><summary>Menu</summary><nav aria-label="Main navigation">@include('partials.navigation')</nav></details>
             <nav class="desktop-nav" aria-label="Main navigation">@include('partials.navigation')</nav>
+            <nav class="header-contact-links" aria-label="Contact links">
+                @if($headerContactSettings->has('contact_email'))
+                    <a href="mailto:{{ $headerContactSettings['contact_email']->value_en }}" aria-label="Email Sakib Nihal Arnab" title="Email"><span class="header-contact-label">Email</span>@include('partials.contact-icon', ['type' => 'email'])</a>
+                @endif
+                @if($headerContactSettings->has('phone'))
+                    @php($whatsappNumber = preg_replace('/[^0-9]/', '', $headerContactSettings['phone']->value_en))
+                    <a href="https://wa.me/{{ $whatsappNumber }}" aria-label="WhatsApp Sakib Nihal Arnab" title="WhatsApp" target="_blank" rel="noopener noreferrer"><span class="header-contact-label">WhatsApp</span>@include('partials.contact-icon', ['type' => 'whatsapp'])</a>
+                @endif
+                @if($headerContactSettings->has('phone'))
+                    <a href="tel:{{ preg_replace('/[^+0-9]/', '', $headerContactSettings['phone']->value_en) }}" aria-label="Call Sakib Nihal Arnab" title="Phone"><span class="header-contact-label">Phone</span>@include('partials.contact-icon', ['type' => 'phone'])</a>
+                @endif
+                @foreach($headerSocialLinks as $link)
+                    <a href="{{ $link->url }}" aria-label="{{ $link->platform }}" title="{{ $link->platform }}" target="_blank" rel="noopener noreferrer"><span class="header-contact-label">{{ $link->platform }}</span>@include('partials.contact-icon', ['type' => strtolower($link->platform)])</a>
+                @endforeach
+            </nav>
         </div>
     </header>
     <main id="main">
@@ -39,11 +53,17 @@
     <footer class="site-footer">
         <div class="container footer-main">
             <div class="footer-identity">
-                <a class="footer-brand" href="{{ route('home') }}" aria-label="{{ config('site.name') }} home">
-                    <span class="footer-brand-mark">SNA</span>
+                <a class="footer-brand" href="{{ route('home') }}">
                     <span><strong>{{ config('site.name') }}</strong><small>Senior Technical Officer · RUET CSE</small></span>
                 </a>
-                <p>Institutional systems and practical web applications built in Rajshahi, Bangladesh.</p>
+                @if($headerContactSettings->has('office'))
+                    <p class="footer-office-address">{{ $headerContactSettings['office']->value_en }}</p>
+                @endif
+                <nav class="footer-social-links" aria-label="Social links">
+                    @foreach($headerSocialLinks as $link)
+                        <a href="{{ $link->url }}" aria-label="{{ $link->platform }}" title="{{ $link->platform }}" target="_blank" rel="noopener noreferrer">@include('partials.contact-icon', ['type' => strtolower($link->platform)])</a>
+                    @endforeach
+                </nav>
             </div>
             <div class="footer-column">
                 <p>Explore</p>
@@ -53,7 +73,7 @@
                 <p>Creative work</p>
                 <nav aria-label="Creative work"><a href="{{ route('music.index') }}">Music</a><a href="{{ route('photography.index') }}">Photography</a><a href="https://github.com/snarnab?tab=repositories" target="_blank" rel="noopener noreferrer">GitHub <span aria-hidden="true">↗</span></a></nav>
             </div>
-            <div class="footer-cta"><p>Have a project in mind?</p><strong>Let’s build something useful.</strong><a href="{{ route('contact') }}">Start a conversation <span aria-hidden="true">→</span></a></div>
+            <div class="footer-cta"><p>Have a practical project in mind?</p><strong>Let’s build something useful.</strong><a href="{{ route('contact') }}">Start a conversation <span aria-hidden="true">→</span></a></div>
         </div>
         <div class="container footer-bottom"><span>© {{ date('Y') }} {{ config('site.name') }}</span><span>Designed and developed by Sakib Nihal Arnab</span></div>
     </footer>

@@ -8,15 +8,11 @@
         <span class="music-header-rule" aria-hidden="true"></span>
     </header>
     <div class="about-page-portrait">
-        @if($profile?->image_path)
-            <img src="{{ str_starts_with($profile->image_path, 'images/') ? asset($profile->image_path) : \Illuminate\Support\Facades\Storage::disk('public')->url($profile->image_path) }}" alt="{{ $profile->name }}" loading="lazy">
-        @endif
+        <img src="{{ asset('images/about-portrait.jpg') }}" alt="{{ $profile?->name ?? config('site.name') }}" loading="lazy">
         <p>{{ $profile?->name ?? config('site.name') }}<span>Rajshahi, Bangladesh</span></p>
     </div>
     <div class="about-page-content">
-        <p class="about-lead">{{ $profile?->about_en ?? config('site.description') }}</p>
-        <p>Sakib Nihal Arnab serves the Department of CSE at Rajshahi University of Engineering &amp; Technology through institutional technical support. His work also includes websites and software developed for practical needs.</p>
-        <p>Alongside his technical career, he brings freelance WordPress development experience. Music and photography complement his professional pursuits.</p>
+        <p class="about-biography">{{ $profile?->about_en ?? config('site.description') }} With a strong foundation in computer science, he develops practical web applications and websites using Laravel, PHP, and WordPress. His experience includes institutional software, real-world digital solutions, and freelance web development. Beyond technology, Sakib performs Rabindra Sangeet with Rajshahi Betar and pursues photography. These creative interests bring a thoughtful eye for detail and a broader perspective to his work.</p>
         <div class="info-facts">
             @foreach($settings as $key => $setting)
                 <a href="{{ $key === 'phone' ? 'tel:'.preg_replace('/[^+0-9]/', '', $setting->value_en) : ($key === 'office' ? route('contact') : 'mailto:'.$setting->value_en) }}"><span>{{ str($key)->replace('_', ' ')->title() }}</span><strong>{{ $setting->value_en }}</strong></a>

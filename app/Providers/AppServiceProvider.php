@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\Models\SiteSetting;
 use App\Models\SocialLink;
 use App\Models\User;
 use Illuminate\Support\Facades\Gate;
@@ -25,7 +26,17 @@ class AppServiceProvider extends ServiceProvider
     {
         Gate::define('manage-portfolio', fn (User $user): bool => (bool) $user->getAttribute('is_admin'));
         View::composer('layouts.app', function ($view): void {
-            $view->with('schemaSocialLinks', SocialLink::query()->orderBy('sort_order')->pluck('url')->all());
+            $socialLinks = SocialLink::query()->orderBy('sort_order')->get();
+            $headerContactSettings = SiteSetting::query()
+                ->whereIn('key', ['contact_email', 'phone', 'office'])
+                ->get()
+                ->keyBy('key');
+
+            $view->with([
+                'schemaSocialLinks' => $socialLinks->pluck('url')->all(),
+                'headerSocialLinks' => $socialLinks->whereIn('platform', ['LinkedIn', 'GitHub', 'Facebook', 'YouTube']),
+                'headerContactSettings' => $headerContactSettings,
+            ]);
         });
     }
 }
