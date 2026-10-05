@@ -19,6 +19,13 @@
                 <label for="{{ $key }}">{{ $field['label'] }}</label><select id="{{ $key }}" name="{{ $key }}"><option value="">— Select —</option>@foreach($options as $optionValue => $optionLabel)<option value="{{ $optionValue }}" @selected((string) $selected === (string) $optionValue)>{{ $optionLabel }}</option>@endforeach</select>
             @elseif($field['type'] === 'multiselect')
                 <label for="{{ $key }}">{{ $field['label'] }}</label><select id="{{ $key }}" name="{{ $key }}[]" multiple size="5">@foreach($options as $optionValue => $optionLabel)<option value="{{ $optionValue }}" @selected(in_array((string) $optionValue, array_map('strval', (array) $selected), true))>{{ $optionLabel }}</option>@endforeach</select>
+            @elseif($resource === 'photographs' && ! $entry->exists && $field['type'] === 'image')
+                <label for="{{ $key }}">Images</label>
+                <input id="{{ $key }}" name="{{ $key }}[]" type="file" accept="image/*" multiple>
+                <small>Select up to 20 photos, each up to 5 MB. All photos use the category and details entered here.</small>
+                @foreach($errors->get($key.'.*') as $messages)
+                    @foreach($messages as $message)<small class="field-error">{{ $message }}</small>@endforeach
+                @endforeach
             @else
                 <label for="{{ $key }}">{{ $field['label'] }}</label><input id="{{ $key }}" name="{{ $key }}" type="{{ $field['type'] === 'image' ? 'file' : $field['type'] }}" @if($field['type'] === 'image') accept="image/*" @else value="{{ $selected }}" @endif @if($errors->has($key)) aria-invalid="true" @endif>
                 @if($field['type'] === 'image' && $selected)<small>Current file: {{ $selected }}</small>@endif

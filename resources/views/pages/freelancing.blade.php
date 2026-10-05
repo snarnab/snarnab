@@ -3,7 +3,7 @@
 @section('description', 'Explore Sakib Nihal Arnab’s freelance web development, design, and digital services on Freelancer and Fiverr.')
 @section('content')
 <section class="container section freelance-page">
-    <div class="section-heading"><h2>Freelance profiles</h2><p>Explore his work and discuss your project.</p></div>
+    <div class="section-heading"><h2>Freelance <span class="freelance-profiles-highlight">Profiles</span></h2><p>Explore his work and discuss your project.</p></div>
     <div class="freelance-cards">
         @forelse($freelanceProfiles as $freelance)
             <article class="card">

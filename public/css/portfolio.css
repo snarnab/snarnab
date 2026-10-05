@@ -5332,10 +5332,30 @@ h3,
 }
 
 /* Music platform thumbnails */
+/* Account pages use the same dark surfaces as the portfolio. */
+.dashboard-grid .card, .quick-links .card, .settings-content .card { background: #122b45; border-color: #35516d; color: #f1f5f9; }
+.dashboard-grid .card h2, .dashboard-grid .card h3, .quick-links .card h3, .settings-content .card h3 { color: #f1f5f9; }
+.dashboard-grid .card .muted, .quick-links .card p, .quick-links .card > span, .settings-content .card .muted { color: #b7c9da; }
+.dashboard-grid .avatar { background: #243e55; color: #f3ce7a; }
+.dashboard-grid .badge { background: #174b3d; color: #c6f3dc; }
+.dashboard-grid .dark-card { background: #17344f; }
+.dashboard-grid .dark-card .button.light { background: #f3ce7a; border-color: #f3ce7a; color: #0b1f33; }
+.settings-content .field label { color: #dce6ef; }
+.settings-content .field input { background: #0b1f33; border-color: #45617a; color: #f1f5f9; }
+.settings-content .field input:focus { border-color: #e5b54b; box-shadow: 0 0 0 3px #e5b54b26; }
+.settings-content .field input::placeholder { color: #8da6bc; }
+.settings-content .danger-card { border-color: #aa5961; }
+.settings-content .field-error { color: #ffb5b5; }
+.quick-links .card:hover { border-color: #e5b54b; }
+.section .page-title { display: block; color: #f1f5f9; }
+.freelance-profiles-highlight { color: #e5b54b; }
 .music-page-header { position: relative; max-width: 760px; margin: 0 auto 52px; text-align: center; }
 .about-page-heading { grid-column: 1 / -1; width: 100%; margin-bottom: 0; }
-.about-page-grid { padding-top: 32px; }
-.about-page-heading h1 span { color: #e5b54b; font-style: normal; }
+.about-page-grid { padding-top: 32px; row-gap: 28px; }
+.about-page-heading h1 span, .projects-page-heading h1 span { color: #e5b54b; font-style: normal; }
+.projects-list-page { padding-top: 32px; }
+.projects-page-heading { margin-bottom: 28px; }
+.about-page-heading .music-header-rule, .projects-page-heading .music-header-rule { margin-top: 16px; }
 .music-header-note { display: grid; width: 48px; height: 48px; margin: 0 auto 18px; place-items: center; border: 1px solid #d4a84366; border-radius: 50%; background: #d4a84312; color: #e5b54b; font-family: var(--display-font); font-size: 22px; }
 .music-page-header > p { margin: 0 0 10px; color: #8da6bc; font-size: 11px; font-weight: 700; letter-spacing: .18em; text-transform: uppercase; }
 .music-page-header h1 { margin: 0; color: #fff; font-family: var(--display-font); font-size: clamp(28px, 4vw, 40px); font-weight: 700; line-height: 1.2; }

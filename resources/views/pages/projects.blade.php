@@ -2,9 +2,9 @@
 @section('title', 'Projects')
 @section('description', 'Selected web and software projects by Sakib Nihal Arnab.')
 @section('content')
-<section class="container portfolio-list-page">
-    <header class="music-page-header">
-        <h1>Arnab’s <em>Projects</em></h1>
+<section class="container portfolio-list-page projects-list-page">
+    <header class="music-page-header projects-page-heading">
+        <h1>Arnab’s <span>Projects</span></h1>
         <span class="music-header-rule" aria-hidden="true"></span>
     </header>
     <div class="project-list-grid">

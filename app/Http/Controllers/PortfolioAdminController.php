@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\ContactMessage;
+use App\Models\Photograph;
 use App\Models\PhotographyCategory;
 use App\Models\Profile;
 use App\Models\Project;
@@ -12,6 +13,7 @@ use App\Models\Technology;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 use Illuminate\Validation\Rule;
 use Illuminate\View\View;
 
@@ -42,10 +44,28 @@ class PortfolioAdminController extends Controller
     public function create(string $resource): View
     {
         $definition = $this->definition($resource);
+        $entry = new $definition['model'];
+
+        if ($resource === 'photographs') {
+            $lastPhotograph = Photograph::query()->latest('id')->first();
+
+            if ($lastPhotograph) {
+                $entry->fill($lastPhotograph->only([
+                    'photography_category_id',
+                    'location',
+                    'photographed_year',
+                    'camera',
+                    'lens',
+                    'is_featured',
+                    'is_published',
+                    'sort_order',
+                ]));
+            }
+        }
 
         return view('admin.form', [
             'definition' => $definition,
-            'entry' => new $definition['model'],
+            'entry' => $entry,
             'resource' => $resource,
         ]);
     }
@@ -54,6 +74,20 @@ class PortfolioAdminController extends Controller
     {
         $definition = $this->definition($resource);
         $data = $this->validatedData($request, $definition);
+
+        if ($resource === 'photographs' && is_array($request->file('image_path'))) {
+            foreach ($request->file('image_path') as $index => $image) {
+                $photoRequest = clone $request;
+                $photoRequest->files->set('image_path', $image);
+                $photoData = $data;
+                unset($photoData['image_path']);
+                $photoData['sort_order'] = $data['sort_order'] + $index;
+                $this->persist($photoRequest, $resource, $definition, new Photograph, $photoData);
+            }
+
+            return to_route('admin.resources.index', $resource)->with('status', count($request->file('image_path')).' photographs uploaded.');
+        }
+
         $entry = new $definition['model'];
         $this->persist($request, $resource, $definition, $entry, $data);
 
@@ -202,6 +236,11 @@ class PortfolioAdminController extends Controller
             }
         }
 
+        if ($definition['model'] === Photograph::class && ! $entry && is_array($request->file('image_path'))) {
+            $rules['image_path'] = ['required', 'array', 'min:1', 'max:20'];
+            $rules['image_path.*'] = ['required', 'image', 'max:5120'];
+        }
+
         return $request->validate($rules);
     }
 
@@ -213,6 +252,19 @@ class PortfolioAdminController extends Controller
     {
         $technologyIds = $data['technology_ids'] ?? [];
         unset($data['technology_ids']);
+
+        if ($resource === 'photography-categories' && ! $entry->exists) {
+            $baseSlug = Str::limit(Str::slug($data['name_en']), 240, '') ?: 'category';
+            $slug = $baseSlug;
+            $suffix = 2;
+
+            while (PhotographyCategory::query()->where('slug', $slug)->exists()) {
+                $slug = $baseSlug.'-'.$suffix;
+                $suffix++;
+            }
+
+            $data['slug'] = $slug;
+        }
 
         foreach ($definition['mirrors'] ?? [] as $target => $source) {
             $data[$target] = $data[$source] ?? null;

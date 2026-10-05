@@ -150,7 +150,6 @@ return [
             'mirrors' => ['name_bn' => 'name_en'],
             'columns' => ['name_en', 'slug', 'sort_order'],
             'fields' => [
-                'slug' => ['label' => 'URL slug', 'type' => 'text', 'rules' => ['required', 'string', 'alpha_dash', 'max:255', 'unique:photography_categories,slug']],
                 'name_en' => ['label' => 'Name (English)', 'type' => 'text', 'rules' => ['required', 'string', 'max:255']],
                 'sort_order' => ['label' => 'Sort order', 'type' => 'number', 'rules' => ['required', 'integer', 'min:0', 'max:65535']],
             ],
