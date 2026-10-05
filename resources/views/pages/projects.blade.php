@@ -3,6 +3,10 @@
 @section('description', 'Selected web and software projects by Sakib Nihal Arnab.')
 @section('content')
 <section class="container portfolio-list-page">
+    <header class="music-page-header">
+        <h1>Arnab’s <em>Projects</em></h1>
+        <span class="music-header-rule" aria-hidden="true"></span>
+    </header>
     <div class="project-list-grid">
         @forelse($projects as $project)
             <article class="project-list-card">

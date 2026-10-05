@@ -3,6 +3,10 @@
 @section('description', $profile?->about_en ?? config('site.description'))
 @section('content')
 <section class="container about-page-grid">
+    <header class="music-page-header about-page-heading">
+        <h1>About <em>Arnab</em></h1>
+        <span class="music-header-rule" aria-hidden="true"></span>
+    </header>
     <div class="about-page-portrait">
         @if($profile?->image_path)
             <img src="{{ str_starts_with($profile->image_path, 'images/') ? asset($profile->image_path) : \Illuminate\Support\Facades\Storage::disk('public')->url($profile->image_path) }}" alt="{{ $profile->name }}" loading="lazy">

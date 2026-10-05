@@ -4,8 +4,6 @@
 @section('content')
 <section class="container portfolio-list-page">
     <header class="music-page-header">
-        <span class="music-header-note" aria-hidden="true">♪</span>
-        <p>Performances &amp; recordings</p>
         <h1>Arnab’s <em>Music</em></h1>
         <span class="music-header-rule" aria-hidden="true"></span>
     </header>
