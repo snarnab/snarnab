@@ -2,13 +2,6 @@
 @section('title', 'Projects')
 @section('description', 'Selected web and software projects by Sakib Nihal Arnab.')
 @section('content')
-<section class="page-hero">
-    <div class="container page-hero-inner">
-        <p class="eyebrow">SELECTED WORK</p>
-        <h1>Projects built<br><span>to be useful.</span></h1>
-        <p class="page-intro">Web applications and software built around real needs.</p>
-    </div>
-</section>
 <section class="container portfolio-list-page">
     <div class="project-list-grid">
         @forelse($projects as $project)

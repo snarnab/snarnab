@@ -2,13 +2,6 @@
 @section('title', 'Freelancing')
 @section('description', 'Explore Sakib Nihal Arnab’s freelance web development, design, and digital services on Freelancer and Fiverr.')
 @section('content')
-<section class="page-hero">
-    <div class="container page-hero-inner">
-        <p class="eyebrow">FREELANCING</p>
-        <h1>Practical skills.<br><span>Projects delivered.</span></h1>
-        <p class="page-intro">From WordPress websites to design and research, explore his freelance services and connect with Sakib Nihal Arnab on your preferred platform.</p>
-    </div>
-</section>
 <section class="container section freelance-page">
     <div class="section-heading"><h2>Freelance profiles</h2><p>Explore his work and discuss your project.</p></div>
     <div class="freelance-cards">

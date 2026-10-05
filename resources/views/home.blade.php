@@ -67,16 +67,18 @@
             <p>Tools and areas of work reflected in his professional experience and projects.</p>
         </div>
         <div class="skills-grid">
-            @forelse($skills as $category)
+            @forelse($skills->take(6) as $category)
                 <article class="skill-card">
                     <span class="skill-index">{{ str_pad((string) $loop->iteration, 2, '0', STR_PAD_LEFT) }}</span>
                     <h3>{{ $category->name_en }}</h3>
-                    <div class="skill-tags">@foreach($category->skills as $skill)<span>{{ $skill->name }}</span>@endforeach</div>
+                    <div class="skill-tags">@foreach($category->skills->take(5) as $skill)<span>{{ $skill->name }}</span>@endforeach</div>
+                    <a class="text-link skill-more" href="{{ route('about') }}#skills">View all {{ $category->skills->count() }} skills ↗</a>
                 </article>
             @empty
                 <p>Professional skills will be added soon.</p>
             @endforelse
         </div>
+        <div class="section-footer-link"><span>16 areas of technical and professional expertise</span><a href="{{ route('about') }}#skills">Explore all skills ↗</a></div>
     </div>
 </section>
 

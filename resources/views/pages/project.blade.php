@@ -16,6 +16,10 @@
     @endif
     <div class="project-detail-actions">@if($project->live_url)<a class="button" href="{{ $project->live_url }}" target="_blank" rel="noopener noreferrer">Visit live system ↗</a>@endif @if($project->source_url)<a class="button secondary" href="{{ $project->source_url }}" target="_blank" rel="noopener noreferrer">View source code ↗</a>@endif</div>
     <div class="project-case-study">
+        @if($project->slug === 'npos-inventory-management')
+            <section><h2>Inventory &amp; sales</h2><ul><li>Product catalogue and inventory management</li><li>Create POS sales</li><li>Total orders and order summaries</li><li>Full memo search</li><li>Negative-stock alerts and reports</li><li>Daily order and items-sold summaries</li><li>Top-selling products over the last seven days</li></ul></section>
+            <section><h2>Business &amp; shipment management</h2><ul><li>Customer and location management</li><li>Expense and profit sections</li><li>Delivery profit and organic profit reporting</li><li>Lend section</li><li>Pre-order hubs and UK shipment creation</li><li>Open, in-transit and previous shipment views</li><li>Manager-wise monthly delivery summary</li><li>Notifications and admin access</li></ul></section>
+        @endif
         @if($project->slug === 'prottasha-school-management')
             <section><h2>Attendance &amp; guardian communication</h2><ul><li>Fingerprint-based attendance management</li><li>Student arrival and departure records</li><li>Student identity and attendance time display on a TV screen</li><li>Guardian arrival and departure SMS notifications</li><li>Public attendance demonstration and display preview</li></ul></section>
             <section><h2>School administration</h2><ul><li>Student management</li><li>Class and routine management</li><li>Examination and result management</li><li>Account access for school operations</li></ul></section>

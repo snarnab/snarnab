@@ -2,13 +2,6 @@
 @section('title', 'About')
 @section('description', $profile?->about_en ?? config('site.description'))
 @section('content')
-<section class="page-hero">
-    <div class="container page-hero-inner">
-        <p class="eyebrow">ABOUT</p>
-        <h1>Sakib Nihal Arnab.<br><span>His work and achievements.</span></h1>
-        <p class="page-intro">An introduction to his professional expertise, institutional service, and creative pursuits.</p>
-    </div>
-</section>
 <section class="container about-page-grid">
     <div class="about-page-portrait">
         @if($profile?->image_path)
@@ -77,6 +70,22 @@
                 </article>
             </div>
         </section>
+<section class="technical-skills-section" id="skills" aria-labelledby="technical-skills-heading">
+    <header class="technical-skills-header">
+        <p class="eyebrow">TECHNICAL &amp; PROFESSIONAL EXPERTISE</p>
+        <h2 id="technical-skills-heading">A broad foundation.<br><span>Practical expertise.</span></h2>
+        <p>Sakib Nihal Arnab’s skills span software development, infrastructure, technical support and creative tools.</p>
+    </header>
+    <div class="technical-skills-grid">
+        @foreach($skills as $category)
+            <article class="technical-skill-card">
+                <header><span class="technical-skill-number">{{ str_pad((string) $loop->iteration, 2, '0', STR_PAD_LEFT) }}</span><span class="technical-skill-count">{{ $category->skills->count() }} skills</span></header>
+                <h3>{{ $category->name_en }}</h3>
+                <ul class="technical-skill-tags">@foreach($category->skills as $skill)<li>{{ $skill->name }}</li>@endforeach</ul>
+            </article>
+        @endforeach
+    </div>
+</section>
     </div>
 </section>
 @endsection

@@ -22,5 +22,7 @@ class DatabaseSeeder extends Seeder
         $this->call(TradingAiProjectSeeder::class);
         $this->call(LifeAndSchoolProjectSeeder::class);
         $this->call(ConsultancyProjectSeeder::class);
+        $this->call(TechnicalSkillsSeeder::class);
+        $this->call(NposProjectSeeder::class);
     }
 }

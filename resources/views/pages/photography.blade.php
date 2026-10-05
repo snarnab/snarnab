@@ -2,13 +2,6 @@
 @section('title', 'Photography')
 @section('description', 'Selected photography and travel photographs by Sakib Nihal Arnab.')
 @section('content')
-<section class="page-hero">
-    <div class="container page-hero-inner">
-        <p class="eyebrow">PERSONAL JOURNAL</p>
-        <h1>Photography &amp; <span>travel.</span></h1>
-        <p class="page-intro">A small visual journal of places, people, and moments.</p>
-    </div>
-</section>
 <section class="container portfolio-list-page">
     <nav class="gallery-filters" aria-label="Photography categories"><a href="{{ route('photography.index') }}" @class(['active' => ! $category])>All photographs</a>@foreach($categories as $item)<a href="{{ route('photography.category', $item->slug) }}" @class(['active' => $category?->is($item)])>{{ $item->name_en }}</a>@endforeach</nav>
     <div class="photo-gallery">

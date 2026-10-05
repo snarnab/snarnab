@@ -37,19 +37,25 @@
         @yield('content')
     </main>
     <footer class="site-footer">
-        <div class="container footer-top">
-            <div><a class="brand" href="{{ route('home') }}"><span class="brand-mark">SA</span><span>{{ config('site.name') }}</span></a><p>Senior Technical Officer · RUET CSE</p></div>
-            <nav class="footer-links" aria-label="Footer navigation">
-                <a href="{{ route('projects.index') }}">Projects</a>
-                <a href="{{ route('freelancing') }}">Freelancing</a>
-                <a href="{{ route('music.index') }}">Music</a>
-                <a href="{{ route('photography.index') }}">Photography</a>
-                <a href="{{ route('about') }}">About</a>
-                <a href="{{ route('contact') }}">Contact</a>
-                <a href="https://github.com/snarnab?tab=repositories" target="_blank" rel="noopener noreferrer">GitHub ↗</a>
-            </nav>
+        <div class="container footer-main">
+            <div class="footer-identity">
+                <a class="footer-brand" href="{{ route('home') }}" aria-label="{{ config('site.name') }} home">
+                    <span class="footer-brand-mark">SNA</span>
+                    <span><strong>{{ config('site.name') }}</strong><small>Senior Technical Officer · RUET CSE</small></span>
+                </a>
+                <p>Institutional systems and practical web applications built in Rajshahi, Bangladesh.</p>
+            </div>
+            <div class="footer-column">
+                <p>Explore</p>
+                <nav aria-label="Explore"><a href="{{ route('projects.index') }}">Projects</a><a href="{{ route('freelancing') }}">Freelancing</a><a href="{{ route('about') }}">About</a><a href="{{ route('contact') }}">Contact</a></nav>
+            </div>
+            <div class="footer-column">
+                <p>Creative work</p>
+                <nav aria-label="Creative work"><a href="{{ route('music.index') }}">Music</a><a href="{{ route('photography.index') }}">Photography</a><a href="https://github.com/snarnab?tab=repositories" target="_blank" rel="noopener noreferrer">GitHub <span aria-hidden="true">↗</span></a></nav>
+            </div>
+            <div class="footer-cta"><p>Have a project in mind?</p><strong>Let’s build something useful.</strong><a href="{{ route('contact') }}">Start a conversation <span aria-hidden="true">→</span></a></div>
         </div>
-        <div class="container footer-bottom"><span>© {{ date('Y') }} {{ config('site.name') }}</span><span>Rajshahi, Bangladesh · Web development and institutional IT</span></div>
+        <div class="container footer-bottom"><span>© {{ date('Y') }} {{ config('site.name') }}</span><span>Designed and developed by Sakib Nihal Arnab</span></div>
     </footer>
     <script>
         const galleryDialog = document.querySelector('[data-gallery-dialog]');

@@ -22,7 +22,7 @@ class PortfolioController extends Controller
     {
         return view('home', [
             'profile' => Profile::query()->first(),
-            'skills' => SkillCategory::query()->with('skills')->orderBy('sort_order')->get(),
+            'skills' => SkillCategory::query()->with('skills')->whereIn('name_en', array_keys(config('technical-skills')))->orderBy('sort_order')->get(),
             'projects' => Project::query()->with('technologies')->where('is_published', true)->orderBy('sort_order')->orderByDesc('id')->get(),
             'experiences' => Experience::query()->orderBy('sort_order')->orderByDesc('started_at')->get(),
             'educations' => Education::query()->orderBy('sort_order')->orderByDesc('graduated_year')->get(),
@@ -36,6 +36,7 @@ class PortfolioController extends Controller
     public function about(): View
     {
         return view('pages.about', [
+            'skills' => SkillCategory::query()->with('skills')->whereIn('name_en', array_keys(config('technical-skills')))->orderBy('sort_order')->get(),
             'profile' => Profile::query()->first(),
             'experiences' => Experience::query()->orderBy('sort_order')->orderByDesc('started_at')->get(),
             'educations' => Education::query()->orderBy('sort_order')->orderByDesc('graduated_year')->get(),
