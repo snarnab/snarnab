@@ -5334,6 +5334,8 @@ h3,
 /* Music platform thumbnails */
 .music-page-header { position: relative; max-width: 760px; margin: 0 auto 52px; text-align: center; }
 .about-page-heading { grid-column: 1 / -1; width: 100%; margin-bottom: 0; }
+.about-page-grid { padding-top: 32px; }
+.about-page-heading h1 span { color: #e5b54b; font-style: normal; }
 .music-header-note { display: grid; width: 48px; height: 48px; margin: 0 auto 18px; place-items: center; border: 1px solid #d4a84366; border-radius: 50%; background: #d4a84312; color: #e5b54b; font-family: var(--display-font); font-size: 22px; }
 .music-page-header > p { margin: 0 0 10px; color: #8da6bc; font-size: 11px; font-weight: 700; letter-spacing: .18em; text-transform: uppercase; }
 .music-page-header h1 { margin: 0; color: #fff; font-family: var(--display-font); font-size: clamp(28px, 4vw, 40px); font-weight: 700; line-height: 1.2; }

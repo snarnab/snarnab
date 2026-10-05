@@ -4,7 +4,7 @@
 @section('content')
 <section class="container about-page-grid">
     <header class="music-page-header about-page-heading">
-        <h1>About <em>Arnab</em></h1>
+        <h1>About <span>Arnab</span></h1>
         <span class="music-header-rule" aria-hidden="true"></span>
     </header>
     <div class="about-page-portrait">
