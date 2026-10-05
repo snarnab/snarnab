@@ -5,7 +5,6 @@
         ? asset($profileImage)
         : \Illuminate\Support\Facades\Storage::disk('public')->url($profileImage);
     $contactEmail = $settings->get('contact_email')?->value_en ?: config('site.email');
-    $featuredProject = $projects->firstWhere('is_featured', true) ?? $projects->first();
     $featuredMusic = $musicItems->firstWhere('is_featured', true) ?? $musicItems->first();
 @endphp
 @section('title', 'Sakib Nihal Arnab')
@@ -87,13 +86,16 @@
             <div><div class="section-label"><span>03</span><span>Selected work</span></div><h2>Built around<br><span>real-world needs.</span></h2></div>
             <p>A selection of software and web work, including a system developed for RUET’s CSE department.</p>
         </div>
-        @if($featuredProject)
+        <div class="home-projects-list">
+        @forelse($projects as $featuredProject)
             <article class="featured-project">
-                <a class="project-art" href="{{ route('projects.show', $featuredProject->slug) }}" aria-label="View {{ $featuredProject->title_en }}">
+                <a class="project-art {{ $featuredProject->cover_path ? 'project-art-screenshot' : '' }}" href="{{ route('projects.show', $featuredProject->slug) }}" aria-label="View {{ $featuredProject->title_en }}">
                     @if($featuredProject->cover_path)<img src="{{ \Illuminate\Support\Facades\Storage::disk('public')->url($featuredProject->cover_path) }}" alt="" loading="lazy">@endif
+                    @unless($featuredProject->cover_path)
                     <span class="project-art-kicker">{{ $featuredProject->organization ?: 'Selected project' }}</span>
-                    <span class="project-art-title">RUET<br><strong>Inventory</strong></span>
+                    <span class="project-art-title">{{ $featuredProject->title_en }}</span>
                     <span class="project-art-footer">DEPARTMENTAL SOFTWARE <span>↗</span></span>
+                    @endunless
                 </a>
                 <div class="project-copy">
                     <p class="eyebrow">{{ $featuredProject->organization ?: 'Institutional software' }}{{ $featuredProject->development_year ? ' · '.$featuredProject->development_year : '' }}</p>
@@ -107,9 +109,10 @@
                     </div>
                 </div>
             </article>
-        @else
+        @empty
             <p>Selected projects will be added soon.</p>
-        @endif
+        @endforelse
+        </div>
         <div class="section-footer-link"><span>More projects and repositories</span><a href="{{ route('projects.index') }}">Browse all projects <span aria-hidden="true">↗</span></a></div>
     </div>
 </section>

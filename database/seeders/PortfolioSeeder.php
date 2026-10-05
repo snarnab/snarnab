@@ -78,10 +78,11 @@ class PortfolioSeeder extends Seeder
             fn (string $name): Technology => Technology::updateOrCreate(['name' => $name], []),
         );
         $project = Project::updateOrCreate(['slug' => 'ruet-cse-inventory-system'], [
-            'title_en' => 'RUET CSE Inventory System',
+            'title_en' => 'Inventory System - RUET CSE',
             'title_bn' => 'RUET CSE ইনভেন্টরি সিস্টেম',
             'category' => 'software',
-            'organization' => 'Department of CSE, RUET',
+            'organization' => 'RUET CSE Inventory System',
+            'cover_path' => 'projects/ruet-inventory-preview.png',
             'role' => 'Developer',
             'summary_en' => 'An inventory management application developed for the Department of CSE at RUET.',
             'summary_bn' => 'RUET-এর CSE বিভাগের জন্য তৈরি একটি ইনভেন্টরি ম্যানেজমেন্ট অ্যাপ্লিকেশন।',

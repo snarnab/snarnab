@@ -5178,3 +5178,38 @@ h3,
 .review-value { margin-left: auto; white-space: nowrap; font-size: 12px; color: #e8be60; }
 .review-controls .button { min-height: 40px; border-radius: 999px; padding-inline: 20px; }
 @media (max-width: 760px) { .freelance-cards .review-card { padding: 22px; } .review-client { flex-wrap: wrap; } }
+
+.project-art.project-art-screenshot::before,
+.project-art.project-art-screenshot::after {
+    display: none;
+}
+.project-art.project-art-screenshot {
+    background: #d2e5fc;
+    min-height: 520px;
+}
+.project-art.project-art-screenshot > img {
+    object-fit: contain;
+}
+.project-preview-link {
+    display: block;
+    margin: 28px 0 38px;
+    text-align: center;
+}
+.project-preview-link .project-detail-cover {
+    width: auto;
+    max-width: 100%;
+    height: auto;
+    max-height: none;
+    margin: 0 auto 12px;
+    object-fit: contain;
+    border-radius: 12px;
+}
+.project-preview-link > span {
+    color: var(--gold, #e5b54b);
+    font-size: 14px;
+}
+
+.home-projects-list {
+    display: grid;
+    gap: 28px;
+}

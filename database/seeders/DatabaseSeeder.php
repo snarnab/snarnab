@@ -15,5 +15,12 @@ class DatabaseSeeder extends Seeder
 
         $this->call(PortfolioSeeder::class);
         $this->call(DigitalMarketingExperienceSeeder::class);
+        $this->call(NazninsProjectSeeder::class);
+        $this->call(RuetProjectPreviewSeeder::class);
+        $this->call(ConnectCseProjectSeeder::class);
+        $this->call(LyricsProjectSeeder::class);
+        $this->call(TradingAiProjectSeeder::class);
+        $this->call(LifeAndSchoolProjectSeeder::class);
+        $this->call(ConsultancyProjectSeeder::class);
     }
 }
