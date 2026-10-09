@@ -14,7 +14,8 @@
     <link rel="canonical" href="{{ url()->current() }}">
     <meta name="theme-color" content="#0B1F33">
     <title>@yield('title', 'Welcome') · {{ config('site.name') }}</title>
-    <link rel="icon" href="{{ asset('favicon.svg') }}" type="image/svg+xml">
+    <link rel="icon" href="{{ asset('favicon.png') }}?v={{ filemtime(public_path('favicon.png')) }}" type="image/png" sizes="64x64">
+    <link rel="shortcut icon" href="{{ asset('favicon.ico') }}?v={{ filemtime(public_path('favicon.ico')) }}">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
@@ -77,6 +78,15 @@
         </div>
         <div class="container footer-bottom"><span>© {{ date('Y') }} {{ config('site.name') }}</span><span>Designed and developed by Sakib Nihal Arnab</span></div>
     </footer>
+    <nav class="mobile-dock" aria-label="Mobile navigation">
+        <a href="{{ route('home') }}" aria-label="Home" title="Home" @if(request()->routeIs('home')) aria-current="page" @endif @class(['active' => request()->routeIs('home')])><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m3 10 9-7 9 7v10H3Z"/><path d="M9 20v-7h6v7"/></svg></a>
+        <a href="{{ route('about') }}" aria-label="About" title="About" @if(request()->routeIs('about')) aria-current="page" @endif @class(['active' => request()->routeIs('about')])><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="7" r="4"/><path d="M4 21v-2a8 8 0 0 1 16 0v2"/></svg></a>
+        <a href="{{ route('projects.index') }}" aria-label="Projects" title="Projects" @if(request()->routeIs('projects.*')) aria-current="page" @endif @class(['active' => request()->routeIs('projects.*')])><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="7" width="18" height="14" rx="2"/><path d="M8 7V3h8v4M3 12h18"/></svg></a>
+        <a href="{{ route('freelancing') }}" aria-label="Freelancing" title="Freelancing" @if(request()->routeIs('freelancing')) aria-current="page" @endif @class(['active' => request()->routeIs('freelancing')])><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4" width="18" height="13" rx="2"/><path d="M8 21h8M12 17v4m-4-9 3 2 5-5"/></svg></a>
+        <a href="{{ route('music.index') }}" aria-label="Music" title="Music" @if(request()->routeIs('music.*')) aria-current="page" @endif @class(['active' => request()->routeIs('music.*')])><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 18V5l11-2v13M9 9l11-2"/><ellipse cx="6" cy="18" rx="3" ry="3"/><ellipse cx="17" cy="16" rx="3" ry="3"/></svg></a>
+        <a href="{{ route('photography.index') }}" aria-label="Photography" title="Photography" @if(request()->routeIs('photography.*')) aria-current="page" @endif @class(['active' => request()->routeIs('photography.*')])><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 6l2-3h4l2 3h4a1 1 0 0 1 1 1v13H3V7a1 1 0 0 1 1-1Z"/><circle cx="12" cy="13" r="4"/></svg></a>
+        <a href="{{ route('contact') }}" aria-label="Contact" title="Contact" @if(request()->routeIs('contact')) aria-current="page" @endif @class(['active' => request()->routeIs('contact')])><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 6 9 7 9-7"/></svg></a>
+    </nav>
     <script>
         const galleryDialog = document.querySelector('[data-gallery-dialog]');
         if (galleryDialog) {
